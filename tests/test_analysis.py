@@ -7,6 +7,8 @@ import pytest
 
 from src.analysis import (
     TickerNotFoundError,
+    build_named_ranking,
+    compare_assets,
     filter_assets,
     find_asset,
     market_summary,
@@ -61,3 +63,29 @@ def test_invalid_page_is_rejected(sample_data: pd.DataFrame) -> None:
     with pytest.raises(ValueError, match="não existe"):
         paginate_assets(sample_data, page=2, page_size=5)
 
+
+def test_named_ranking_filters_category_and_metric(sample_data: pd.DataFrame) -> None:
+    """A named ranking should not mix unrelated asset categories."""
+    sample_data.loc[sample_data["ticker"] == "PETR4", "composition_percent"] = 8.2
+    title, column, ranking = build_named_ranking(sample_data, "ibov", limit=5)
+
+    assert title == "Maiores participações no Ibovespa"
+    assert column == "composition_percent"
+    assert ranking["ticker"].tolist() == ["PETR4"]
+
+
+def test_compare_assets_preserves_order_and_accepts_commas(
+    sample_data: pd.DataFrame,
+) -> None:
+    """Comparison input should be convenient for both shell syntaxes."""
+    compared = compare_assets(sample_data, ["btc,PETR4", "BTC"])
+
+    assert compared["ticker"].tolist() == ["BTC", "PETR4"]
+
+
+def test_compare_assets_requires_two_distinct_tickers(
+    sample_data: pd.DataFrame,
+) -> None:
+    """A single asset is a lookup, not a comparison."""
+    with pytest.raises(ValueError, match="pelo menos dois"):
+        compare_assets(sample_data, ["PETR4", "petr4"])

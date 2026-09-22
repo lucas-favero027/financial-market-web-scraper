@@ -173,6 +173,62 @@ def print_asset_details(asset: pd.Series) -> None:
     print(SEPARATOR)
 
 
+def print_ranking(data: pd.DataFrame, title: str, column: str) -> None:
+    """Print one ranking with formatting appropriate to its metric."""
+    print(f"\n{title.upper()}\n")
+    if data.empty:
+        print("Não há dados disponíveis para este ranking.")
+        return
+
+    labels = {
+        "composition_percent": "Participação",
+        "change_percent": "Variação",
+        "volume": "Volume",
+    }
+    print(f"{'#':<4} {'Ticker':<10} {'Nome':<35} {labels[column]:>20}")
+    print("-" * 72)
+    for position, (_, row) in enumerate(data.iterrows(), start=1):
+        if column == "change_percent":
+            value = format_percent(row[column], table=True)
+        elif column == "composition_percent":
+            value = f"{format_number_br(row[column], 3)}%"
+        else:
+            value = format_number_br(row[column], 4)
+        print(
+            f"{position:<4} {_shorten(row['ticker'], 10):<10} "
+            f"{_shorten(row['name'], 35):<35} {value:>20}"
+        )
+
+
+def print_asset_comparison(data: pd.DataFrame) -> None:
+    """Compare heterogeneous assets without fabricating unavailable fields."""
+    print("\nCOMPARAÇÃO DE ATIVOS\n")
+    header = (
+        f"{'Ticker':<10} {'Categoria':<14} {'Preço':>16} "
+        f"{'Variação':>11} {'Part. índice':>14} {'Volume':>18}"
+    )
+    print(header)
+    print("-" * len(header))
+    for _, row in data.iterrows():
+        composition = (
+            f"{format_number_br(row['composition_percent'], 3)}%"
+            if not _is_missing(row["composition_percent"])
+            else "—"
+        )
+        volume = (
+            format_number_br(row["volume"], 4)
+            if not _is_missing(row["volume"])
+            else "—"
+        )
+        print(
+            f"{_shorten(row['ticker'], 10):<10} "
+            f"{_shorten(row['asset_type'], 14):<14} "
+            f"{format_currency(row['price']):>16} "
+            f"{format_percent(row['change_percent'], table=True):>11} "
+            f"{composition:>14} {volume:>18}"
+        )
+
+
 def print_source_warnings(errors: dict[str, str]) -> None:
     """Print non-fatal source failures without hiding unavailable data."""
     if not errors:

@@ -13,6 +13,28 @@ TYPE_FILTERS = {
     "fii": "FII",
     "crypto": "Criptomoeda",
 }
+RANKING_SPECS = {
+    "ibov": ("Maiores participações no Ibovespa", "Ação", "composition_percent", False),
+    "fiis": ("Maiores participações no IFIX", "FII", "composition_percent", False),
+    "crypto-change": (
+        "Maiores variações de criptomoedas",
+        "Criptomoeda",
+        "change_percent",
+        False,
+    ),
+    "crypto-losers": (
+        "Menores variações de criptomoedas",
+        "Criptomoeda",
+        "change_percent",
+        True,
+    ),
+    "crypto-volume": (
+        "Maiores volumes de criptomoedas",
+        "Criptomoeda",
+        "volume",
+        False,
+    ),
+}
 
 
 class TickerNotFoundError(LookupError):
@@ -101,6 +123,37 @@ def rank_assets(
         .head(limit)[["ticker", "name", "asset_type", column]]
         .reset_index(drop=True)
     )
+
+
+def build_named_ranking(
+    data: pd.DataFrame,
+    ranking_name: str,
+    limit: int = 10,
+) -> tuple[str, str, pd.DataFrame]:
+    """Build one documented CLI ranking from the common asset table."""
+    normalized_name = ranking_name.strip().lower()
+    try:
+        title, asset_type, column, ascending = RANKING_SPECS[normalized_name]
+    except KeyError as exc:
+        raise ValueError(f"Ranking não reconhecido: {ranking_name!r}.") from exc
+    category_data = data.loc[data["asset_type"] == asset_type]
+    ranking = rank_assets(category_data, column, limit=limit, ascending=ascending)
+    return title, column, ranking
+
+
+def compare_assets(data: pd.DataFrame, tickers: list[str]) -> pd.DataFrame:
+    """Return selected assets in input order using the standardized schema."""
+    normalized_tickers: list[str] = []
+    for value in tickers:
+        for ticker in value.split(","):
+            normalized = ticker.strip().upper()
+            if normalized and normalized not in normalized_tickers:
+                normalized_tickers.append(normalized)
+    if len(normalized_tickers) < 2:
+        raise ValueError("Informe pelo menos dois tickers diferentes para comparar.")
+
+    rows = [find_asset(data, ticker) for ticker in normalized_tickers]
+    return pd.DataFrame(rows).reset_index(drop=True)
 
 
 def find_stock(data: pd.DataFrame, ticker: str) -> pd.Series:

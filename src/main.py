@@ -9,6 +9,8 @@ from typing import Any
 
 from src.analysis import (
     TickerNotFoundError,
+    build_named_ranking,
+    compare_assets,
     filter_assets,
     find_asset,
     market_summary,
@@ -22,6 +24,7 @@ from src.data_processing import (
     empty_asset_dataframe,
 )
 from src.display import (
+    print_asset_comparison,
     print_asset_details,
     print_assets_table,
     print_exported_files,
@@ -29,6 +32,7 @@ from src.display import (
     print_header,
     print_indicators,
     print_market_summary,
+    print_ranking,
     print_source_warnings,
 )
 from src.exporter import export_market_data, save_raw_snapshot
@@ -85,6 +89,29 @@ def parse_arguments() -> argparse.Namespace:
         type=int,
         default=0,
         help="Reutiliza uma coleta local recente; 0 desativa o cache.",
+    )
+    parser.add_argument(
+        "--ranking",
+        choices=(
+            "ibov",
+            "fiis",
+            "crypto-change",
+            "crypto-losers",
+            "crypto-volume",
+        ),
+        help="Exibe um ranking baseado somente nos campos disponíveis.",
+    )
+    parser.add_argument(
+        "--ranking-limit",
+        type=int,
+        default=10,
+        help="Quantidade de posições exibidas no ranking (padrão: 10).",
+    )
+    parser.add_argument(
+        "--compare",
+        nargs="+",
+        metavar="TICKER",
+        help="Compara dois ou mais tickers, separados por espaço.",
     )
     return parser.parse_args()
 
@@ -274,8 +301,21 @@ def run(args: argparse.Namespace) -> int:
         page_size=args.page_size,
     )
 
+    if args.ranking:
+        ranking_title, ranking_column, ranking_data = build_named_ranking(
+            result["market_data"],
+            args.ranking,
+            limit=args.ranking_limit,
+        )
+        print_ranking(ranking_data, ranking_title, ranking_column)
+
+    if args.compare:
+        comparison = compare_assets(result["market_data"], args.compare)
+        print_asset_comparison(comparison)
+
     selected_ticker = args.ticker
-    if selected_ticker is None:
+    has_noninteractive_analysis = args.ranking or args.compare
+    if selected_ticker is None and not has_noninteractive_analysis:
         print("\nDigite um ticker para consultar (Enter para encerrar):")
         selected_ticker = input("> ").strip()
     if selected_ticker:
