@@ -1,5 +1,10 @@
 # Financial Market Web Scraper
 
+[![Tests](https://github.com/bonitin-sama/financial-market-web-scraper/actions/workflows/tests.yml/badge.svg)](https://github.com/bonitin-sama/financial-market-web-scraper/actions/workflows/tests.yml)
+![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
+[![Release](https://img.shields.io/github/v/release/bonitin-sama/financial-market-web-scraper)](https://github.com/bonitin-sama/financial-market-web-scraper/releases)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+
 Projeto em Python para coletar, padronizar, analisar e exportar dados públicos
 do mercado financeiro brasileiro. A aplicação utiliza requisições HTTP diretas
 com `requests`, transforma respostas JSON em `DataFrame` com `pandas` e oferece
@@ -8,6 +13,19 @@ uma interface de terminal para consulta e filtragem dos ativos.
 O projeto foi desenvolvido para um processo seletivo de estágio. A arquitetura
 prioriza funções pequenas, responsabilidades claras, tratamento de erros e
 decisões que possam ser explicadas integralmente em uma entrevista técnica.
+
+## Demonstração
+
+### Visão geral do mercado
+
+![Resumo do mercado e ativos disponíveis na CLI](docs/images/cli-market-overview.png)
+
+### Consulta individual
+
+![Consulta dos dados da PETR4 na CLI](docs/images/cli-petr4-details.png)
+
+As capturas acima foram produzidas a partir de uma execução real em 21/09/2026.
+Quantidades, datas, indicadores e dados de mercado podem mudar a cada coleta.
 
 ## Objetivo
 
@@ -56,6 +74,17 @@ Financial Analysis
 CLI
    ↓
 CSV / XLSX Export
+```
+
+```mermaid
+flowchart LR
+    B3["B3<br/>IBOV e IFIX"] --> S["Scrapers HTTP<br/>requests"]
+    MB["Mercado Bitcoin<br/>Criptomoedas"] --> S
+    BCB["Banco Central<br/>SELIC e CDI"] --> S
+    S --> P["Limpeza e padronização<br/>pandas"]
+    P --> A["Análise e classificação"]
+    A --> C["CLI"]
+    A --> E["CSV e XLSX"]
 ```
 
 ## Fontes dos dados
@@ -118,6 +147,8 @@ financial-market-web-scraper/
 ├── data/
 │   ├── raw/
 │   └── processed/
+├── docs/
+│   └── images/
 ├── tests/
 ├── .github/workflows/tests.yml
 ├── .gitignore
@@ -325,6 +356,8 @@ Os testes usam respostas HTTP falsas e cobrem:
 
 O workflow do GitHub Actions executa a suíte em cada `push` e `pull request`.
 
+![Execução da suíte com 17 testes aprovados](docs/images/tests-passing.png)
+
 ## Considerações sobre Web Scraping
 
 O projeto usa apenas páginas, endpoints e APIs públicas sem autenticação. Não
@@ -357,4 +390,3 @@ termos de cada fonte e implemente cache e limitação de chamadas.
 ## Licença
 
 Distribuído sob a licença MIT. Consulte `LICENSE`.
-
