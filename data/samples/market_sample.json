@@ -1,0 +1,2330 @@
+{
+  "collected_at": "2026-09-21T22:30:13.290921",
+  "sources": {
+    "stocks_b3_ibov": {
+      "page": {
+        "pageNumber": 1,
+        "pageSize": 120,
+        "totalRecords": 76,
+        "totalPages": 1
+      },
+      "header": {
+        "date": "21/09/26",
+        "text": "Quantidade Teórica Total",
+        "part": "100,000",
+        "partAcum": null,
+        "textReductor": "Redutor",
+        "reductor": "14.030.209,70866077",
+        "theoricalQty": "93.803.750.400"
+      },
+      "results": [
+        {
+          "segment": null,
+          "cod": "ALOS3",
+          "asset": "ALLOS",
+          "type": "ON      NM",
+          "part": "0,532",
+          "partAcum": null,
+          "theoricalQty": "478.975.645"
+        },
+        {
+          "segment": null,
+          "cod": "ABEV3",
+          "asset": "AMBEV S/A",
+          "type": "ON",
+          "part": "2,393",
+          "partAcum": null,
+          "theoricalQty": "4.043.349.180"
+        },
+        {
+          "segment": null,
+          "cod": "ASAI3",
+          "asset": "ASSAI",
+          "type": "ON      NM",
+          "part": "0,527",
+          "partAcum": null,
+          "theoricalQty": "1.335.651.252"
+        },
+        {
+          "segment": null,
+          "cod": "AURE3",
+          "asset": "AUREN",
+          "type": "ON      NM",
+          "part": "0,151",
+          "partAcum": null,
+          "theoricalQty": "317.886.569"
+        },
+        {
+          "segment": null,
+          "cod": "AXIA3",
+          "asset": "AXIA ENERGIA",
+          "type": "ON      NM",
+          "part": "4,717",
+          "partAcum": null,
+          "theoricalQty": "2.278.697.967"
+        },
+        {
+          "segment": null,
+          "cod": "AZZA3",
+          "asset": "AZZAS 2154",
+          "type": "ON      NM",
+          "part": "0,072",
+          "partAcum": null,
+          "theoricalQty": "130.746.665"
+        },
+        {
+          "segment": null,
+          "cod": "B3SA3",
+          "asset": "B3",
+          "type": "ON      NM",
+          "part": "3,375",
+          "partAcum": null,
+          "theoricalQty": "4.985.893.391"
+        },
+        {
+          "segment": null,
+          "cod": "BBSE3",
+          "asset": "BBSEGURIDADE",
+          "type": "ON      NM",
+          "part": "0,969",
+          "partAcum": null,
+          "theoricalQty": "616.248.544"
+        },
+        {
+          "segment": null,
+          "cod": "BBDC3",
+          "asset": "BRADESCO",
+          "type": "ON      N1",
+          "part": "0,890",
+          "partAcum": null,
+          "theoricalQty": "1.464.434.502"
+        },
+        {
+          "segment": null,
+          "cod": "BBDC4",
+          "asset": "BRADESCO",
+          "type": "PN      N1",
+          "part": "3,531",
+          "partAcum": null,
+          "theoricalQty": "5.100.907.585"
+        },
+        {
+          "segment": null,
+          "cod": "BRAP4",
+          "asset": "BRADESPAR",
+          "type": "PN      N1",
+          "part": "0,205",
+          "partAcum": null,
+          "theoricalQty": "250.886.751"
+        },
+        {
+          "segment": null,
+          "cod": "BBAS3",
+          "asset": "BRASIL",
+          "type": "ON      NM",
+          "part": "2,538",
+          "partAcum": null,
+          "theoricalQty": "2.842.760.965"
+        },
+        {
+          "segment": null,
+          "cod": "BRAV3",
+          "asset": "BRAVA",
+          "type": "ON      NM",
+          "part": "0,185",
+          "partAcum": null,
+          "theoricalQty": "277.531.689"
+        },
+        {
+          "segment": null,
+          "cod": "BPAC11",
+          "asset": "BTGP BANCO",
+          "type": "UNT     N2",
+          "part": "2,823",
+          "partAcum": null,
+          "theoricalQty": "1.194.770.950"
+        },
+        {
+          "segment": null,
+          "cod": "CXSE3",
+          "asset": "CAIXA SEGURI",
+          "type": "ON      NM",
+          "part": "0,477",
+          "partAcum": null,
+          "theoricalQty": "600.000.000"
+        },
+        {
+          "segment": null,
+          "cod": "CEAB3",
+          "asset": "CEA MODAS",
+          "type": "ON      NM",
+          "part": "0,070",
+          "partAcum": null,
+          "theoricalQty": "204.244.409"
+        },
+        {
+          "segment": null,
+          "cod": "CMIG4",
+          "asset": "CEMIG",
+          "type": "PN      N1",
+          "part": "0,787",
+          "partAcum": null,
+          "theoricalQty": "1.823.593.065"
+        },
+        {
+          "segment": null,
+          "cod": "COGN3",
+          "asset": "COGNA ON",
+          "type": "ON      NM",
+          "part": "0,167",
+          "partAcum": null,
+          "theoricalQty": "1.918.999.490"
+        },
+        {
+          "segment": null,
+          "cod": "CSMG3",
+          "asset": "COPASA",
+          "type": "ON      NM",
+          "part": "0,825",
+          "partAcum": null,
+          "theoricalQty": "379.172.627"
+        },
+        {
+          "segment": null,
+          "cod": "CPLE3",
+          "asset": "COPEL",
+          "type": "ON      NM",
+          "part": "1,827",
+          "partAcum": null,
+          "theoricalQty": "2.969.578.102"
+        },
+        {
+          "segment": null,
+          "cod": "CSAN3",
+          "asset": "COSAN",
+          "type": "ON      NM",
+          "part": "0,320",
+          "partAcum": null,
+          "theoricalQty": "2.278.224.258"
+        },
+        {
+          "segment": null,
+          "cod": "CPFE3",
+          "asset": "CPFL ENERGIA",
+          "type": "ON      NM",
+          "part": "0,328",
+          "partAcum": null,
+          "theoricalQty": "187.732.538"
+        },
+        {
+          "segment": null,
+          "cod": "CMIN3",
+          "asset": "CSNMINERACAO",
+          "type": "ON      N2",
+          "part": "0,330",
+          "partAcum": null,
+          "theoricalQty": "1.572.292.846"
+        },
+        {
+          "segment": null,
+          "cod": "CURY3",
+          "asset": "CURY S/A",
+          "type": "ON      NM",
+          "part": "0,180",
+          "partAcum": null,
+          "theoricalQty": "160.988.231"
+        },
+        {
+          "segment": null,
+          "cod": "CYRE3",
+          "asset": "CYRELA REALT",
+          "type": "ON      NM",
+          "part": "0,263",
+          "partAcum": null,
+          "theoricalQty": "256.078.095"
+        },
+        {
+          "segment": null,
+          "cod": "DIRR3",
+          "asset": "DIRECIONAL",
+          "type": "ON      NM",
+          "part": "0,126",
+          "partAcum": null,
+          "theoricalQty": "326.739.860"
+        },
+        {
+          "segment": null,
+          "cod": "EMBJ3",
+          "asset": "EMBRAER",
+          "type": "ON      NM",
+          "part": "2,659",
+          "partAcum": null,
+          "theoricalQty": "711.833.141"
+        },
+        {
+          "segment": null,
+          "cod": "ENGI11",
+          "asset": "ENERGISA",
+          "type": "UNT     N2",
+          "part": "0,718",
+          "partAcum": null,
+          "theoricalQty": "358.085.210"
+        },
+        {
+          "segment": null,
+          "cod": "ENEV3",
+          "asset": "ENEVA",
+          "type": "ON      NM",
+          "part": "2,001",
+          "partAcum": null,
+          "theoricalQty": "1.916.508.073"
+        },
+        {
+          "segment": null,
+          "cod": "EGIE3",
+          "asset": "ENGIE BRASIL",
+          "type": "ON      NM",
+          "part": "0,518",
+          "partAcum": null,
+          "theoricalQty": "443.076.690"
+        },
+        {
+          "segment": null,
+          "cod": "EQTL3",
+          "asset": "EQUATORIAL",
+          "type": "ON      NM",
+          "part": "1,897",
+          "partAcum": null,
+          "theoricalQty": "1.245.905.097"
+        },
+        {
+          "segment": null,
+          "cod": "FLRY3",
+          "asset": "FLEURY",
+          "type": "ON      NM",
+          "part": "0,366",
+          "partAcum": null,
+          "theoricalQty": "445.241.785"
+        },
+        {
+          "segment": null,
+          "cod": "GGBR4",
+          "asset": "GERDAU",
+          "type": "PN      N1",
+          "part": "1,213",
+          "partAcum": null,
+          "theoricalQty": "1.244.099.630"
+        },
+        {
+          "segment": null,
+          "cod": "GOAU4",
+          "asset": "GERDAU MET",
+          "type": "PN      N1",
+          "part": "0,363",
+          "partAcum": null,
+          "theoricalQty": "827.170.367"
+        },
+        {
+          "segment": null,
+          "cod": "HAPV3",
+          "asset": "HAPVIDA",
+          "type": "ON      NM",
+          "part": "0,066",
+          "partAcum": null,
+          "theoricalQty": "276.640.336"
+        },
+        {
+          "segment": null,
+          "cod": "HYPE3",
+          "asset": "HYPERA",
+          "type": "ON      NM",
+          "part": "0,271",
+          "partAcum": null,
+          "theoricalQty": "296.007.718"
+        },
+        {
+          "segment": null,
+          "cod": "IGTI11",
+          "asset": "IGUATEMI S.A",
+          "type": "UNT     N1",
+          "part": "0,222",
+          "partAcum": null,
+          "theoricalQty": "220.429.690"
+        },
+        {
+          "segment": null,
+          "cod": "ISAE4",
+          "asset": "ISA ENERGIA",
+          "type": "PN      N1",
+          "part": "0,485",
+          "partAcum": null,
+          "theoricalQty": "460.013.216"
+        },
+        {
+          "segment": null,
+          "cod": "ITSA4",
+          "asset": "ITAUSA",
+          "type": "PN      N1",
+          "part": "3,228",
+          "partAcum": null,
+          "theoricalQty": "5.980.171.123"
+        },
+        {
+          "segment": null,
+          "cod": "ITUB4",
+          "asset": "ITAUUNIBANCO",
+          "type": "PN      N1",
+          "part": "8,695",
+          "partAcum": null,
+          "theoricalQty": "5.337.898.685"
+        },
+        {
+          "segment": null,
+          "cod": "KLBN11",
+          "asset": "KLABIN S/A",
+          "type": "UNT     N2",
+          "part": "0,580",
+          "partAcum": null,
+          "theoricalQty": "786.869.850"
+        },
+        {
+          "segment": null,
+          "cod": "RENT3",
+          "asset": "LOCALIZA",
+          "type": "ON      NM",
+          "part": "1,361",
+          "partAcum": null,
+          "theoricalQty": "976.910.862"
+        },
+        {
+          "segment": null,
+          "cod": "LREN3",
+          "asset": "LOJAS RENNER",
+          "type": "ON      NM",
+          "part": "0,419",
+          "partAcum": null,
+          "theoricalQty": "975.958.589"
+        },
+        {
+          "segment": null,
+          "cod": "MGLU3",
+          "asset": "MAGAZ LUIZA",
+          "type": "ON      NM",
+          "part": "0,088",
+          "partAcum": null,
+          "theoricalQty": "389.237.948"
+        },
+        {
+          "segment": null,
+          "cod": "POMO4",
+          "asset": "MARCOPOLO",
+          "type": "PN      N2",
+          "part": "0,120",
+          "partAcum": null,
+          "theoricalQty": "728.945.103"
+        },
+        {
+          "segment": null,
+          "cod": "MBRF3",
+          "asset": "MARFRIG",
+          "type": "ON      NM",
+          "part": "0,477",
+          "partAcum": null,
+          "theoricalQty": "735.470.942"
+        },
+        {
+          "segment": null,
+          "cod": "BEEF3",
+          "asset": "MINERVA",
+          "type": "ON      NM",
+          "part": "0,068",
+          "partAcum": null,
+          "theoricalQty": "444.534.706"
+        },
+        {
+          "segment": null,
+          "cod": "MOTV3",
+          "asset": "MOTIVA SA",
+          "type": "ON      NM",
+          "part": "0,622",
+          "partAcum": null,
+          "theoricalQty": "1.002.045.228"
+        },
+        {
+          "segment": null,
+          "cod": "MRVE3",
+          "asset": "MRV",
+          "type": "ON      NM",
+          "part": "0,075",
+          "partAcum": null,
+          "theoricalQty": "374.720.028"
+        },
+        {
+          "segment": null,
+          "cod": "MULT3",
+          "asset": "MULTIPLAN",
+          "type": "ON      N2",
+          "part": "0,380",
+          "partAcum": null,
+          "theoricalQty": "322.143.505"
+        },
+        {
+          "segment": null,
+          "cod": "NATU3",
+          "asset": "NATURA",
+          "type": "ON      NM",
+          "part": "0,256",
+          "partAcum": null,
+          "theoricalQty": "837.026.185"
+        },
+        {
+          "segment": null,
+          "cod": "PETR3",
+          "asset": "PETROBRAS",
+          "type": "ON      N2",
+          "part": "5,019",
+          "partAcum": null,
+          "theoricalQty": "2.441.951.100"
+        },
+        {
+          "segment": null,
+          "cod": "PETR4",
+          "asset": "PETROBRAS",
+          "type": "PN      N2",
+          "part": "8,232",
+          "partAcum": null,
+          "theoricalQty": "4.410.957.710"
+        },
+        {
+          "segment": null,
+          "cod": "PSSA3",
+          "asset": "PORTO SEGURO",
+          "type": "ON      NM",
+          "part": "0,338",
+          "partAcum": null,
+          "theoricalQty": "178.825.403"
+        },
+        {
+          "segment": null,
+          "cod": "PRIO3",
+          "asset": "PRIO",
+          "type": "ON      NM",
+          "part": "1,834",
+          "partAcum": null,
+          "theoricalQty": "753.702.456"
+        },
+        {
+          "segment": null,
+          "cod": "RADL3",
+          "asset": "RAIADROGASIL",
+          "type": "ON      NM",
+          "part": "1,022",
+          "partAcum": null,
+          "theoricalQty": "1.312.816.783"
+        },
+        {
+          "segment": null,
+          "cod": "RDOR3",
+          "asset": "REDE D OR",
+          "type": "ON      NM",
+          "part": "1,476",
+          "partAcum": null,
+          "theoricalQty": "1.030.028.001"
+        },
+        {
+          "segment": null,
+          "cod": "RAIL3",
+          "asset": "RUMO S.A.",
+          "type": "ON      NM",
+          "part": "0,810",
+          "partAcum": null,
+          "theoricalQty": "1.406.822.230"
+        },
+        {
+          "segment": null,
+          "cod": "SBSP3",
+          "asset": "SABESP",
+          "type": "ON      NM",
+          "part": "3,704",
+          "partAcum": null,
+          "theoricalQty": "3.524.534.025"
+        },
+        {
+          "segment": null,
+          "cod": "SANB11",
+          "asset": "SANTANDER BR",
+          "type": "UNT",
+          "part": "0,404",
+          "partAcum": null,
+          "theoricalQty": "356.245.448"
+        },
+        {
+          "segment": null,
+          "cod": "CSNA3",
+          "asset": "SID NACIONAL",
+          "type": "ON",
+          "part": "0,164",
+          "partAcum": null,
+          "theoricalQty": "727.462.410"
+        },
+        {
+          "segment": null,
+          "cod": "SMFT3",
+          "asset": "SMART FIT",
+          "type": "ON      NM",
+          "part": "0,363",
+          "partAcum": null,
+          "theoricalQty": "555.416.717"
+        },
+        {
+          "segment": null,
+          "cod": "SUZB3",
+          "asset": "SUZANO S.A.",
+          "type": "ON      NM",
+          "part": "1,123",
+          "partAcum": null,
+          "theoricalQty": "608.216.821"
+        },
+        {
+          "segment": null,
+          "cod": "TAEE11",
+          "asset": "TAESA",
+          "type": "UNT     N2",
+          "part": "0,352",
+          "partAcum": null,
+          "theoricalQty": "218.568.234"
+        },
+        {
+          "segment": null,
+          "cod": "VIVT3",
+          "asset": "TELEF BRASIL",
+          "type": "ON",
+          "part": "0,842",
+          "partAcum": null,
+          "theoricalQty": "707.098.992"
+        },
+        {
+          "segment": null,
+          "cod": "TEND3",
+          "asset": "TENDA",
+          "type": "ON      NM",
+          "part": "0,138",
+          "partAcum": null,
+          "theoricalQty": "118.671.153"
+        },
+        {
+          "segment": null,
+          "cod": "TIMS3",
+          "asset": "TIM",
+          "type": "ON      NM",
+          "part": "0,581",
+          "partAcum": null,
+          "theoricalQty": "776.308.601"
+        },
+        {
+          "segment": null,
+          "cod": "TOTS3",
+          "asset": "TOTVS",
+          "type": "ON      NM",
+          "part": "0,681",
+          "partAcum": null,
+          "theoricalQty": "515.889.217"
+        },
+        {
+          "segment": null,
+          "cod": "UGPA3",
+          "asset": "ULTRAPAR",
+          "type": "ON      NM",
+          "part": "1,608",
+          "partAcum": null,
+          "theoricalQty": "1.067.930.953"
+        },
+        {
+          "segment": null,
+          "cod": "USIM5",
+          "asset": "USIMINAS",
+          "type": "PNA     N1",
+          "part": "0,138",
+          "partAcum": null,
+          "theoricalQty": "518.248.757"
+        },
+        {
+          "segment": null,
+          "cod": "VALE3",
+          "asset": "VALE",
+          "type": "ON      NM",
+          "part": "10,410",
+          "partAcum": null,
+          "theoricalQty": "3.687.404.862"
+        },
+        {
+          "segment": null,
+          "cod": "VAMO3",
+          "asset": "VAMOS",
+          "type": "ON      NM",
+          "part": "0,070",
+          "partAcum": null,
+          "theoricalQty": "527.021.942"
+        },
+        {
+          "segment": null,
+          "cod": "VBBR3",
+          "asset": "VIBRA",
+          "type": "ON      NM",
+          "part": "1,821",
+          "partAcum": null,
+          "theoricalQty": "1.194.079.963"
+        },
+        {
+          "segment": null,
+          "cod": "VIVA3",
+          "asset": "VIVARA S.A.",
+          "type": "ON      NM",
+          "part": "0,108",
+          "partAcum": null,
+          "theoricalQty": "123.861.677"
+        },
+        {
+          "segment": null,
+          "cod": "WEGE3",
+          "asset": "WEG",
+          "type": "ON  EJ  NM",
+          "part": "2,905",
+          "partAcum": null,
+          "theoricalQty": "1.460.506.056"
+        },
+        {
+          "segment": null,
+          "cod": "YDUQ3",
+          "asset": "YDUQS PART",
+          "type": "ON      NM",
+          "part": "0,101",
+          "partAcum": null,
+          "theoricalQty": "247.852.006"
+        }
+      ],
+      "indexCode": "IBOV"
+    },
+    "fiis_b3_ifix": {
+      "page": {
+        "pageNumber": 1,
+        "pageSize": 120,
+        "totalRecords": 99,
+        "totalPages": 1
+      },
+      "header": {
+        "date": "21/09/26",
+        "text": "Quantidade Teórica Total",
+        "part": "100,000",
+        "partAcum": null,
+        "textReductor": "Redutor",
+        "reductor": "39.657.368,19131315",
+        "theoricalQty": "5.628.230.591"
+      },
+      "results": [
+        {
+          "segment": null,
+          "cod": "CACR11",
+          "asset": "CARTESIA FII",
+          "type": "CI",
+          "part": "0,050",
+          "partAcum": null,
+          "theoricalQty": "4.836.324"
+        },
+        {
+          "segment": null,
+          "cod": "AFHI11",
+          "asset": "FII AFHI CRI",
+          "type": "CI  ER",
+          "part": "0,335",
+          "partAcum": null,
+          "theoricalQty": "5.288.811"
+        },
+        {
+          "segment": null,
+          "cod": "ALZR11",
+          "asset": "FII ALIANZA",
+          "type": "CI  ER",
+          "part": "1,092",
+          "partAcum": null,
+          "theoricalQty": "164.512.251"
+        },
+        {
+          "segment": null,
+          "cod": "RZAT11",
+          "asset": "FII ARCTIUM",
+          "type": "CI  ER",
+          "part": "0,248",
+          "partAcum": null,
+          "theoricalQty": "4.235.042"
+        },
+        {
+          "segment": null,
+          "cod": "FATN11",
+          "asset": "FII ATHENA I",
+          "type": "CI",
+          "part": "0,349",
+          "partAcum": null,
+          "theoricalQty": "6.343.786"
+        },
+        {
+          "segment": null,
+          "cod": "BBIG11",
+          "asset": "FII BBIG",
+          "type": "CI",
+          "part": "0,343",
+          "partAcum": null,
+          "theoricalQty": "99.120.994"
+        },
+        {
+          "segment": null,
+          "cod": "BRCR11",
+          "asset": "FII BC FUND",
+          "type": "CI",
+          "part": "0,743",
+          "partAcum": null,
+          "theoricalQty": "26.638.202"
+        },
+        {
+          "segment": null,
+          "cod": "BCRI11",
+          "asset": "FII BEES CRI",
+          "type": "CI",
+          "part": "0,226",
+          "partAcum": null,
+          "theoricalQty": "6.257.873"
+        },
+        {
+          "segment": null,
+          "cod": "BRCO11",
+          "asset": "FII BRESCO",
+          "type": "CI",
+          "part": "1,336",
+          "partAcum": null,
+          "theoricalQty": "18.021.303"
+        },
+        {
+          "segment": null,
+          "cod": "BTCI11",
+          "asset": "FII BTG CRI",
+          "type": "CI",
+          "part": "0,561",
+          "partAcum": null,
+          "theoricalQty": "99.521.172"
+        },
+        {
+          "segment": null,
+          "cod": "BPML11",
+          "asset": "FII BTG SHOP",
+          "type": "CI  ER",
+          "part": "0,430",
+          "partAcum": null,
+          "theoricalQty": "7.441.745"
+        },
+        {
+          "segment": null,
+          "cod": "BTHF11",
+          "asset": "FII BTHF",
+          "type": "CI",
+          "part": "1,176",
+          "partAcum": null,
+          "theoricalQty": "205.846.940"
+        },
+        {
+          "segment": null,
+          "cod": "BTLG11",
+          "asset": "FII BTLG",
+          "type": "CI  ER",
+          "part": "4,827",
+          "partAcum": null,
+          "theoricalQty": "70.940.261"
+        },
+        {
+          "segment": null,
+          "cod": "CPTS11",
+          "asset": "FII CAPI SEC",
+          "type": "CI  ER",
+          "part": "1,828",
+          "partAcum": null,
+          "theoricalQty": "363.503.147"
+        },
+        {
+          "segment": null,
+          "cod": "ICRI11",
+          "asset": "FII CI IPCA",
+          "type": "CI",
+          "part": "0,224",
+          "partAcum": null,
+          "theoricalQty": "3.857.359"
+        },
+        {
+          "segment": null,
+          "cod": "CLIN11",
+          "asset": "FII CLAVE IN",
+          "type": "CI  ER",
+          "part": "0,248",
+          "partAcum": null,
+          "theoricalQty": "4.346.763"
+        },
+        {
+          "segment": null,
+          "cod": "CPSH11",
+          "asset": "FII CPSH",
+          "type": "CI  ER",
+          "part": "0,812",
+          "partAcum": null,
+          "theoricalQty": "123.163.844"
+        },
+        {
+          "segment": null,
+          "cod": "CYCR11",
+          "asset": "FII CYRELA",
+          "type": "CI",
+          "part": "0,202",
+          "partAcum": null,
+          "theoricalQty": "36.549.445"
+        },
+        {
+          "segment": null,
+          "cod": "DEVA11",
+          "asset": "FII DEVANT",
+          "type": "CI",
+          "part": "0,160",
+          "partAcum": null,
+          "theoricalQty": "14.044.908"
+        },
+        {
+          "segment": null,
+          "cod": "VRTA11",
+          "asset": "FII FATOR VE",
+          "type": "CI",
+          "part": "0,735",
+          "partAcum": null,
+          "theoricalQty": "15.592.424"
+        },
+        {
+          "segment": null,
+          "cod": "GTWR11",
+          "asset": "FII G TOWERS",
+          "type": "CI",
+          "part": "0,630",
+          "partAcum": null,
+          "theoricalQty": "12.000.000"
+        },
+        {
+          "segment": null,
+          "cod": "GZIT11",
+          "asset": "FII GAZIT",
+          "type": "CI",
+          "part": "0,542",
+          "partAcum": null,
+          "theoricalQty": "21.841.231"
+        },
+        {
+          "segment": null,
+          "cod": "GGRC11",
+          "asset": "FII GGR ZAG",
+          "type": "CI",
+          "part": "2,095",
+          "partAcum": null,
+          "theoricalQty": "346.151.183"
+        },
+        {
+          "segment": null,
+          "cod": "GARE11",
+          "asset": "FII GUARDIAN",
+          "type": "CI",
+          "part": "1,639",
+          "partAcum": null,
+          "theoricalQty": "289.186.438"
+        },
+        {
+          "segment": null,
+          "cod": "HABT11",
+          "asset": "FII HABIT II",
+          "type": "CI",
+          "part": "0,355",
+          "partAcum": null,
+          "theoricalQty": "8.126.783"
+        },
+        {
+          "segment": null,
+          "cod": "HCTR11",
+          "asset": "FII HECTARE",
+          "type": "CI",
+          "part": "0,188",
+          "partAcum": null,
+          "theoricalQty": "22.084.202"
+        },
+        {
+          "segment": null,
+          "cod": "HGBS11",
+          "asset": "FII HEDGEBS",
+          "type": "CI",
+          "part": "1,807",
+          "partAcum": null,
+          "theoricalQty": "144.355.726"
+        },
+        {
+          "segment": null,
+          "cod": "HGCR11",
+          "asset": "FII HGCR PAX",
+          "type": "CI",
+          "part": "0,982",
+          "partAcum": null,
+          "theoricalQty": "15.418.106"
+        },
+        {
+          "segment": null,
+          "cod": "HGLG11",
+          "asset": "FII HGLG PAX",
+          "type": "CI",
+          "part": "4,537",
+          "partAcum": null,
+          "theoricalQty": "45.601.745"
+        },
+        {
+          "segment": null,
+          "cod": "HGRE11",
+          "asset": "FII HGRE PAX",
+          "type": "CI",
+          "part": "0,922",
+          "partAcum": null,
+          "theoricalQty": "11.817.767"
+        },
+        {
+          "segment": null,
+          "cod": "HGRU11",
+          "asset": "FII HGRU PAX",
+          "type": "CI",
+          "part": "1,905",
+          "partAcum": null,
+          "theoricalQty": "24.834.204"
+        },
+        {
+          "segment": null,
+          "cod": "HTMX11",
+          "asset": "FII HOTEL MX",
+          "type": "CI",
+          "part": "0,264",
+          "partAcum": null,
+          "theoricalQty": "2.888.094"
+        },
+        {
+          "segment": null,
+          "cod": "HSAF11",
+          "asset": "FII HSI CRI",
+          "type": "CI",
+          "part": "0,129",
+          "partAcum": null,
+          "theoricalQty": "2.526.360"
+        },
+        {
+          "segment": null,
+          "cod": "HSLG11",
+          "asset": "FII HSI LOG",
+          "type": "CI",
+          "part": "0,670",
+          "partAcum": null,
+          "theoricalQty": "12.660.067"
+        },
+        {
+          "segment": null,
+          "cod": "HSML11",
+          "asset": "FII HSI MALL",
+          "type": "CI",
+          "part": "1,209",
+          "partAcum": null,
+          "theoricalQty": "21.329.976"
+        },
+        {
+          "segment": null,
+          "cod": "HFOF11",
+          "asset": "FII HTOPFOF3",
+          "type": "CI",
+          "part": "0,955",
+          "partAcum": null,
+          "theoricalQty": "225.785.000"
+        },
+        {
+          "segment": null,
+          "cod": "IRIM11",
+          "asset": "FII IRIM",
+          "type": "CI  ER",
+          "part": "1,437",
+          "partAcum": null,
+          "theoricalQty": "35.225.947"
+        },
+        {
+          "segment": null,
+          "cod": "ITRI11",
+          "asset": "FII ITRI",
+          "type": "CI",
+          "part": "0,321",
+          "partAcum": null,
+          "theoricalQty": "6.250.000"
+        },
+        {
+          "segment": null,
+          "cod": "JSAF11",
+          "asset": "FII JS A FIN",
+          "type": "CI",
+          "part": "0,365",
+          "partAcum": null,
+          "theoricalQty": "77.523.290"
+        },
+        {
+          "segment": null,
+          "cod": "JSRE11",
+          "asset": "FII JS REAL",
+          "type": "CI",
+          "part": "0,842",
+          "partAcum": null,
+          "theoricalQty": "20.767.328"
+        },
+        {
+          "segment": null,
+          "cod": "KISU11",
+          "asset": "FII KILIMA",
+          "type": "CI  ER",
+          "part": "0,241",
+          "partAcum": null,
+          "theoricalQty": "59.544.167"
+        },
+        {
+          "segment": null,
+          "cod": "KNRI11",
+          "asset": "FII KINEA",
+          "type": "CI",
+          "part": "2,987",
+          "partAcum": null,
+          "theoricalQty": "28.204.047"
+        },
+        {
+          "segment": null,
+          "cod": "KCRE11",
+          "asset": "FII KINEA CR",
+          "type": "CI",
+          "part": "0,204",
+          "partAcum": null,
+          "theoricalQty": "36.000.000"
+        },
+        {
+          "segment": null,
+          "cod": "KNHF11",
+          "asset": "FII KINEA HF",
+          "type": "CI",
+          "part": "1,216",
+          "partAcum": null,
+          "theoricalQty": "19.663.235"
+        },
+        {
+          "segment": null,
+          "cod": "KNHY11",
+          "asset": "FII KINEA HY",
+          "type": "CI",
+          "part": "1,991",
+          "partAcum": null,
+          "theoricalQty": "31.173.083"
+        },
+        {
+          "segment": null,
+          "cod": "KNIP11",
+          "asset": "FII KINEA IP",
+          "type": "CI",
+          "part": "4,835",
+          "partAcum": null,
+          "theoricalQty": "80.078.186"
+        },
+        {
+          "segment": null,
+          "cod": "KNCR11",
+          "asset": "FII KINEA RI",
+          "type": "CI",
+          "part": "7,722",
+          "partAcum": null,
+          "theoricalQty": "107.089.622"
+        },
+        {
+          "segment": null,
+          "cod": "KNSC11",
+          "asset": "FII KINEA SC",
+          "type": "CI",
+          "part": "1,514",
+          "partAcum": null,
+          "theoricalQty": "248.179.397"
+        },
+        {
+          "segment": null,
+          "cod": "KNUQ11",
+          "asset": "FII KINEA UN",
+          "type": "CI",
+          "part": "1,722",
+          "partAcum": null,
+          "theoricalQty": "24.984.730"
+        },
+        {
+          "segment": null,
+          "cod": "KFOF11",
+          "asset": "FII KINEAFOF",
+          "type": "CI",
+          "part": "0,364",
+          "partAcum": null,
+          "theoricalQty": "7.014.565"
+        },
+        {
+          "segment": null,
+          "cod": "KORE11",
+          "asset": "FII KORE",
+          "type": "CI",
+          "part": "0,421",
+          "partAcum": null,
+          "theoricalQty": "9.625.000"
+        },
+        {
+          "segment": null,
+          "cod": "LIFE11",
+          "asset": "FII LIFE",
+          "type": "CI",
+          "part": "0,186",
+          "partAcum": null,
+          "theoricalQty": "39.761.584"
+        },
+        {
+          "segment": null,
+          "cod": "LVBI11",
+          "asset": "FII LVBI VBI",
+          "type": "CI",
+          "part": "1,051",
+          "partAcum": null,
+          "theoricalQty": "16.118.565"
+        },
+        {
+          "segment": null,
+          "cod": "MANA11",
+          "asset": "FII MANATI",
+          "type": "CI",
+          "part": "0,232",
+          "partAcum": null,
+          "theoricalQty": "37.536.140"
+        },
+        {
+          "segment": null,
+          "cod": "MCCI11",
+          "asset": "FII MAUA",
+          "type": "CI  ER",
+          "part": "1,082",
+          "partAcum": null,
+          "theoricalQty": "16.960.024"
+        },
+        {
+          "segment": null,
+          "cod": "MCRE11",
+          "asset": "FII MAUA RE",
+          "type": "CI  ER",
+          "part": "0,575",
+          "partAcum": null,
+          "theoricalQty": "111.598.921"
+        },
+        {
+          "segment": null,
+          "cod": "MXRF11",
+          "asset": "FII MAXI REN",
+          "type": "CI",
+          "part": "3,471",
+          "partAcum": null,
+          "theoricalQty": "567.206.273"
+        },
+        {
+          "segment": null,
+          "cod": "MFII11",
+          "asset": "FII MERITO I",
+          "type": "CI",
+          "part": "0,182",
+          "partAcum": null,
+          "theoricalQty": "6.800.000"
+        },
+        {
+          "segment": null,
+          "cod": "OUJP11",
+          "asset": "FII OURI JPP",
+          "type": "CI",
+          "part": "0,150",
+          "partAcum": null,
+          "theoricalQty": "3.252.384"
+        },
+        {
+          "segment": null,
+          "cod": "PCIP11",
+          "asset": "FII PCIP PAX",
+          "type": "CI  ER",
+          "part": "0,832",
+          "partAcum": null,
+          "theoricalQty": "17.011.707"
+        },
+        {
+          "segment": null,
+          "cod": "PMLL11",
+          "asset": "FII PMLL PAX",
+          "type": "CI",
+          "part": "0,970",
+          "partAcum": null,
+          "theoricalQty": "13.982.093"
+        },
+        {
+          "segment": null,
+          "cod": "PORD11",
+          "asset": "FII POLO CRI",
+          "type": "CI",
+          "part": "0,207",
+          "partAcum": null,
+          "theoricalQty": "37.283.750"
+        },
+        {
+          "segment": null,
+          "cod": "PSEC11",
+          "asset": "FII PSEC PAX",
+          "type": "CI  ER",
+          "part": "0,639",
+          "partAcum": null,
+          "theoricalQty": "18.399.378"
+        },
+        {
+          "segment": null,
+          "cod": "PVBI11",
+          "asset": "FII PVBI VBI",
+          "type": "CI",
+          "part": "1,228",
+          "partAcum": null,
+          "theoricalQty": "27.130.067"
+        },
+        {
+          "segment": null,
+          "cod": "RPRI11",
+          "asset": "FII RBR PR",
+          "type": "CI",
+          "part": "0,166",
+          "partAcum": null,
+          "theoricalQty": "3.471.728"
+        },
+        {
+          "segment": null,
+          "cod": "RBRL11",
+          "asset": "FII RBRL PAX",
+          "type": "CI",
+          "part": "0,345",
+          "partAcum": null,
+          "theoricalQty": "6.687.035"
+        },
+        {
+          "segment": null,
+          "cod": "RBRP11",
+          "asset": "FII RBRP PAX",
+          "type": "CI",
+          "part": "0,410",
+          "partAcum": null,
+          "theoricalQty": "12.179.186"
+        },
+        {
+          "segment": null,
+          "cod": "RBRR11",
+          "asset": "FII RBRR PAX",
+          "type": "CI  ER",
+          "part": "0,761",
+          "partAcum": null,
+          "theoricalQty": "16.300.275"
+        },
+        {
+          "segment": null,
+          "cod": "RBRX11",
+          "asset": "FII RBRX PAX",
+          "type": "CI  ER",
+          "part": "0,703",
+          "partAcum": null,
+          "theoricalQty": "146.354.302"
+        },
+        {
+          "segment": null,
+          "cod": "RBRY11",
+          "asset": "FII RBRY PAX",
+          "type": "CI  ER",
+          "part": "0,704",
+          "partAcum": null,
+          "theoricalQty": "12.769.512"
+        },
+        {
+          "segment": null,
+          "cod": "RECR11",
+          "asset": "FII REC RECE",
+          "type": "CI",
+          "part": "1,360",
+          "partAcum": null,
+          "theoricalQty": "26.441.650"
+        },
+        {
+          "segment": null,
+          "cod": "RCRB11",
+          "asset": "FII RIOB RC",
+          "type": "CI",
+          "part": "0,329",
+          "partAcum": null,
+          "theoricalQty": "3.690.695"
+        },
+        {
+          "segment": null,
+          "cod": "RBVA11",
+          "asset": "FII RIOB VA",
+          "type": "CI",
+          "part": "0,982",
+          "partAcum": null,
+          "theoricalQty": "165.268.143"
+        },
+        {
+          "segment": null,
+          "cod": "RZAK11",
+          "asset": "FII RIZA AKN",
+          "type": "CI  ER",
+          "part": "0,455",
+          "partAcum": null,
+          "theoricalQty": "8.807.885"
+        },
+        {
+          "segment": null,
+          "cod": "RZTR11",
+          "asset": "FII RIZA TX",
+          "type": "CI",
+          "part": "1,065",
+          "partAcum": null,
+          "theoricalQty": "18.851.720"
+        },
+        {
+          "segment": null,
+          "cod": "TRBL11",
+          "asset": "FII SDI LOG",
+          "type": "CI",
+          "part": "0,270",
+          "partAcum": null,
+          "theoricalQty": "7.739.092"
+        },
+        {
+          "segment": null,
+          "cod": "SPXS11",
+          "asset": "FII SPX SYN",
+          "type": "CI",
+          "part": "0,101",
+          "partAcum": null,
+          "theoricalQty": "20.189.040"
+        },
+        {
+          "segment": null,
+          "cod": "SNCI11",
+          "asset": "FII SUNO CRI",
+          "type": "CI  ER",
+          "part": "0,228",
+          "partAcum": null,
+          "theoricalQty": "4.200.000"
+        },
+        {
+          "segment": null,
+          "cod": "SNEL11",
+          "asset": "FII SUNO EL",
+          "type": "CI  ER",
+          "part": "0,592",
+          "partAcum": null,
+          "theoricalQty": "110.660.070"
+        },
+        {
+          "segment": null,
+          "cod": "SNFF11",
+          "asset": "FII SUNOFOFI",
+          "type": "CI  ER",
+          "part": "0,192",
+          "partAcum": null,
+          "theoricalQty": "4.020.635"
+        },
+        {
+          "segment": null,
+          "cod": "TEPP11",
+          "asset": "FII TEL PROP",
+          "type": "CI",
+          "part": "0,259",
+          "partAcum": null,
+          "theoricalQty": "53.763.691"
+        },
+        {
+          "segment": null,
+          "cod": "TGAR11",
+          "asset": "FII TG ATIVO",
+          "type": "CI",
+          "part": "0,706",
+          "partAcum": null,
+          "theoricalQty": "23.567.968"
+        },
+        {
+          "segment": null,
+          "cod": "TVRI11",
+          "asset": "FII TIVIO RI",
+          "type": "CI",
+          "part": "0,932",
+          "partAcum": null,
+          "theoricalQty": "15.919.690"
+        },
+        {
+          "segment": null,
+          "cod": "TOPP11",
+          "asset": "FII TOPP PAX",
+          "type": "CI  ER",
+          "part": "0,198",
+          "partAcum": null,
+          "theoricalQty": "4.528.240"
+        },
+        {
+          "segment": null,
+          "cod": "TRXF11",
+          "asset": "FII TRX REAL",
+          "type": "CI",
+          "part": "3,115",
+          "partAcum": null,
+          "theoricalQty": "62.430.702"
+        },
+        {
+          "segment": null,
+          "cod": "URPR11",
+          "asset": "FII URCA REN",
+          "type": "CI",
+          "part": "0,153",
+          "partAcum": null,
+          "theoricalQty": "11.733.895"
+        },
+        {
+          "segment": null,
+          "cod": "VGHF11",
+          "asset": "FII VALOR HE",
+          "type": "CI",
+          "part": "0,557",
+          "partAcum": null,
+          "theoricalQty": "164.721.683"
+        },
+        {
+          "segment": null,
+          "cod": "VGIP11",
+          "asset": "FII VALORAIP",
+          "type": "CI  ER",
+          "part": "0,586",
+          "partAcum": null,
+          "theoricalQty": "11.787.247"
+        },
+        {
+          "segment": null,
+          "cod": "VGIR11",
+          "asset": "FII VALREIII",
+          "type": "CI  ER",
+          "part": "0,950",
+          "partAcum": null,
+          "theoricalQty": "146.101.287"
+        },
+        {
+          "segment": null,
+          "cod": "VCJR11",
+          "asset": "FII VECTIS",
+          "type": "CI",
+          "part": "0,647",
+          "partAcum": null,
+          "theoricalQty": "14.723.970"
+        },
+        {
+          "segment": null,
+          "cod": "VGRI11",
+          "asset": "FII VGRI",
+          "type": "CI",
+          "part": "0,127",
+          "partAcum": null,
+          "theoricalQty": "35.021.736"
+        },
+        {
+          "segment": null,
+          "cod": "VILG11",
+          "asset": "FII VINCI LG",
+          "type": "CI",
+          "part": "0,908",
+          "partAcum": null,
+          "theoricalQty": "14.997.396"
+        },
+        {
+          "segment": null,
+          "cod": "VINO11",
+          "asset": "FII VINCI OF",
+          "type": "CI",
+          "part": "0,239",
+          "partAcum": null,
+          "theoricalQty": "82.826.295"
+        },
+        {
+          "segment": null,
+          "cod": "VISC11",
+          "asset": "FII VINCI SC",
+          "type": "CI",
+          "part": "1,990",
+          "partAcum": null,
+          "theoricalQty": "28.828.640"
+        },
+        {
+          "segment": null,
+          "cod": "WHGR11",
+          "asset": "FII WHG REAL",
+          "type": "CI",
+          "part": "0,179",
+          "partAcum": null,
+          "theoricalQty": "30.912.379"
+        },
+        {
+          "segment": null,
+          "cod": "XPCI11",
+          "asset": "FII XP CRED",
+          "type": "CI",
+          "part": "0,453",
+          "partAcum": null,
+          "theoricalQty": "8.701.552"
+        },
+        {
+          "segment": null,
+          "cod": "XPLG11",
+          "asset": "FII XP LOG",
+          "type": "CI",
+          "part": "3,213",
+          "partAcum": null,
+          "theoricalQty": "51.390.098"
+        },
+        {
+          "segment": null,
+          "cod": "XPML11",
+          "asset": "FII XP MALLS",
+          "type": "CI  ERS",
+          "part": "4,198",
+          "partAcum": null,
+          "theoricalQty": "64.308.055"
+        },
+        {
+          "segment": null,
+          "cod": "XPSF11",
+          "asset": "FII XP SELEC",
+          "type": "CI",
+          "part": "0,186",
+          "partAcum": null,
+          "theoricalQty": "43.302.140"
+        }
+      ],
+      "indexCode": "IFIX"
+    },
+    "crypto_mercado_bitcoin": {
+      "symbols": {
+        "symbol": [
+          "BTC-BRL",
+          "ETH-BRL",
+          "SOL-BRL",
+          "USDT-BRL",
+          "USDC-BRL",
+          "XRP-BRL",
+          "ADA-BRL",
+          "DOGE-BRL",
+          "AVAX-BRL",
+          "LINK-BRL",
+          "LTC-BRL",
+          "BCH-BRL",
+          "DOT-BRL",
+          "UNI-BRL",
+          "AAVE-BRL",
+          "SUI-BRL",
+          "TRX-BRL",
+          "NEAR-BRL",
+          "ATOM-BRL",
+          "PAXG-BRL"
+        ],
+        "description": [
+          "Bitcoin",
+          "Ethereum",
+          "Solana",
+          "Tether",
+          "USD Coin",
+          "XRP",
+          "Cardano",
+          "Dogecoin",
+          "Avalanche",
+          "Chainlink",
+          "Litecoin",
+          "Bitcoin Cash",
+          "Polkadot",
+          "Uniswap",
+          "Aave",
+          "Sui",
+          "Tron",
+          "Near",
+          "Cosmos",
+          "PAX Gold"
+        ],
+        "currency": [
+          "BRL",
+          "BRL",
+          "BRL",
+          "BRL",
+          "BRL",
+          "BRL",
+          "BRL",
+          "BRL",
+          "BRL",
+          "BRL",
+          "BRL",
+          "BRL",
+          "BRL",
+          "BRL",
+          "BRL",
+          "BRL",
+          "BRL",
+          "BRL",
+          "BRL",
+          "BRL"
+        ],
+        "base-currency": [
+          "BTC",
+          "ETH",
+          "SOL",
+          "USDT",
+          "USDC",
+          "XRP",
+          "ADA",
+          "DOGE",
+          "AVAX",
+          "LINK",
+          "LTC",
+          "BCH",
+          "DOT",
+          "UNI",
+          "AAVE",
+          "SUI",
+          "TRX",
+          "NEAR",
+          "ATOM",
+          "PAXG"
+        ],
+        "exchange-listed": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "exchange-traded": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "minmovement": [
+          "1",
+          "1",
+          "0.01",
+          "0.0001",
+          "0.0001",
+          "0.0001",
+          "0.0001",
+          "0.00001",
+          "0.001",
+          "0.001",
+          "0.01",
+          "0.1",
+          "0.0001",
+          "0.001",
+          "0.01",
+          "0.0001",
+          "0.0001",
+          "0.0001",
+          "0.0001",
+          "1"
+        ],
+        "pricescale": [
+          100000000,
+          100000000,
+          100000000,
+          100000000,
+          100000000,
+          100000000,
+          100000000,
+          100000000,
+          100000000,
+          100000000,
+          100000000,
+          100000000,
+          100000000,
+          100000000,
+          100000000,
+          100000000,
+          100000000,
+          100000000,
+          100000000,
+          100000000
+        ],
+        "type": [
+          "CRYPTO",
+          "CRYPTO",
+          "CRYPTO",
+          "CRYPTO",
+          "CRYPTO",
+          "CRYPTO",
+          "CRYPTO",
+          "CRYPTO",
+          "CRYPTO",
+          "CRYPTO",
+          "CRYPTO",
+          "CRYPTO",
+          "CRYPTO",
+          "CRYPTO",
+          "CRYPTO",
+          "CRYPTO",
+          "CRYPTO",
+          "CRYPTO",
+          "CRYPTO",
+          "CRYPTO"
+        ],
+        "timezone": [
+          "America/Sao_Paulo",
+          "America/Sao_Paulo",
+          "America/Sao_Paulo",
+          "America/Sao_Paulo",
+          "America/Sao_Paulo",
+          "America/Sao_Paulo",
+          "America/Sao_Paulo",
+          "America/Sao_Paulo",
+          "America/Sao_Paulo",
+          "America/Sao_Paulo",
+          "America/Sao_Paulo",
+          "America/Sao_Paulo",
+          "America/Sao_Paulo",
+          "America/Sao_Paulo",
+          "America/Sao_Paulo",
+          "America/Sao_Paulo",
+          "America/Sao_Paulo",
+          "America/Sao_Paulo",
+          "America/Sao_Paulo",
+          "America/Sao_Paulo"
+        ],
+        "session-regular": [
+          "24x7",
+          "24x7",
+          "24x7",
+          "24x7",
+          "24x7",
+          "24x7",
+          "24x7",
+          "24x7",
+          "24x7",
+          "24x7",
+          "24x7",
+          "24x7",
+          "24x7",
+          "24x7",
+          "24x7",
+          "24x7",
+          "24x7",
+          "24x7",
+          "24x7",
+          "24x7"
+        ],
+        "withdrawal-fee": [
+          "0.00003000",
+          "0.00010000",
+          "0.00140000",
+          "0.86000000",
+          "0.70000000",
+          "0.01000000",
+          "1.00000000",
+          "",
+          "0.01500000",
+          "0.06360000",
+          "0.00010000",
+          "0.00100000",
+          "",
+          "0.25000000",
+          "0.02000000",
+          "0.10000000",
+          "0.55000000",
+          "0.02000000",
+          "",
+          "0.00020000"
+        ],
+        "withdraw-minimum": [
+          "0.0003",
+          "0.004",
+          "0.001",
+          "1",
+          "10",
+          "10",
+          "5",
+          "",
+          "0.0173",
+          "0.5",
+          "0.001",
+          "0.001",
+          "",
+          "0.5",
+          "0.005",
+          "0.115",
+          "1.5",
+          "0.062",
+          "",
+          "0.005"
+        ],
+        "deposit-minimum": [
+          "0.00001",
+          "0.004",
+          "0.001",
+          "5",
+          "5",
+          "0.01",
+          "1",
+          "",
+          "0.0075",
+          "0.2",
+          "0.001",
+          "0.00000546",
+          "",
+          "1",
+          "0.005",
+          "1",
+          "2",
+          "0.01",
+          "",
+          "0.0002"
+        ],
+        "min-price": [
+          "195000.00000000",
+          "6158.50000000",
+          "268.32000000",
+          "4.36551500",
+          "4.31596000",
+          "3.26440000",
+          "0.52105000",
+          "0.20467500",
+          "19.08950000",
+          "29.31850000",
+          "130.79204121",
+          "557.25000000",
+          "2.49500000",
+          "16.18100000",
+          "313.53500000",
+          "1.92125000",
+          "0.83245000",
+          "6.01585000",
+          "3.83893104",
+          "19035.75000000"
+        ],
+        "max-price": [
+          "1207342.87492191",
+          "38789.32401243",
+          "1704.23433576",
+          "6.03495267",
+          "5.97589717",
+          "21.87000000",
+          "3.35787948",
+          "1.31568000",
+          "119.99100000",
+          "187.62639159",
+          "850.95921441",
+          "3834.30000000",
+          "19.65000000",
+          "137.59800000",
+          "2193.42000000",
+          "12.32019030",
+          "5.14500132",
+          "54.14730000",
+          "25.04610000",
+          "26862.43817643"
+        ],
+        "min-volume": [
+          "0.00000150",
+          "0.00001000",
+          "0.00001000",
+          "0.00001000",
+          "0.00001000",
+          "0.00001000",
+          "0.00001000",
+          "0.00001000",
+          "0.00001000",
+          "0.00001000",
+          "0.00001000",
+          "0.00001000",
+          "0.00001000",
+          "0.00001000",
+          "0.00001000",
+          "0.00001000",
+          "0.00001000",
+          "0.00001000",
+          "0.00001000",
+          "0.00001000"
+        ],
+        "max-volume": [
+          "30.00000000",
+          "57.08939796",
+          "1950.00000000",
+          "2176523.58000000",
+          "9642400.17000000",
+          "103890.00000000",
+          "134305.50000000",
+          "416666.66550000",
+          "1378.31923500",
+          "1999.95930000",
+          "251.85000000",
+          "90.00000000",
+          "6208.45410000",
+          "4362.00243000",
+          "139.50000000",
+          "13822.28429675",
+          "36000.00000000",
+          "11805.66000000",
+          "3669.24315000",
+          "7.61700000"
+        ],
+        "min-cost": [
+          "0.90000000",
+          "0.90000000",
+          "0.90000000",
+          "0.90000000",
+          "0.90000000",
+          "0.90000000",
+          "0.90000000",
+          "0.90000000",
+          "0.90000000",
+          "0.90000000",
+          "0.90000000",
+          "0.90000000",
+          "0.90000000",
+          "0.90000000",
+          "0.90000000",
+          "0.90000000",
+          "0.90000000",
+          "0.90000000",
+          "0.90000000",
+          "0.90000000"
+        ],
+        "max-cost": [
+          "1000000.00000000",
+          "1000000.00000000",
+          "1000000.00000000",
+          "1000000.00000000",
+          "1000000.00000000",
+          "1000000.00000000",
+          "450981.68250114",
+          "548199.99846504",
+          "165385.90332689",
+          "375245.14678587",
+          "214314.07814916",
+          "345087.00000000",
+          "121996.12306500",
+          "600202.81036314",
+          "305982.09000000",
+          "170293.17291667",
+          "185220.04752000",
+          "639244.61371800",
+          "91900.23085922",
+          "204611.19158989"
+        ],
+        "round-lot": [
+          "0.00000001",
+          "0.00000001",
+          "0.000001",
+          "0.0001",
+          "0.0001",
+          "0.0001",
+          "0.0001",
+          "0.001",
+          "0.00001",
+          "0.00001",
+          "0.000001",
+          "0.0000001",
+          "0.0001",
+          "0.00001",
+          "0.000001",
+          "0.0001",
+          "0.0001",
+          "0.0001",
+          "0.0001",
+          "0.00000001"
+        ]
+      },
+      "tickers": [
+        {
+          "pair": "ATOM-BRL",
+          "high": "9.44980000",
+          "low": "8.58520000",
+          "vol": "1673.81730000",
+          "last": "9.29000000",
+          "buy": "9.29000000",
+          "sell": "9.44900000",
+          "open": "9.00340000",
+          "date": 1790040613
+        },
+        {
+          "pair": "PAXG-BRL",
+          "high": "22578.00000000",
+          "low": "22117.00000000",
+          "vol": "0.77076744",
+          "last": "22295.00000000",
+          "buy": "22279.00000000",
+          "sell": "22363.00000000",
+          "open": "22518.00000000",
+          "date": 1790040595
+        },
+        {
+          "pair": "ETH-BRL",
+          "high": "14350.00000000",
+          "low": "13664.00000000",
+          "vol": "182.64107519",
+          "last": "14099.00000000",
+          "buy": "14095.00000000",
+          "sell": "14098.00000000",
+          "open": "13846.00000000",
+          "date": 1790040614
+        },
+        {
+          "pair": "LINK-BRL",
+          "high": "67.91600000",
+          "low": "64.54200000",
+          "vol": "2879.38675000",
+          "last": "66.74400000",
+          "buy": "66.39100000",
+          "sell": "66.84900000",
+          "open": "65.72300000",
+          "date": 1790040614
+        },
+        {
+          "pair": "BCH-BRL",
+          "high": "1394.90000000",
+          "low": "1297.80000000",
+          "vol": "68.28065790",
+          "last": "1363.40000000",
+          "buy": "1358.40000000",
+          "sell": "1366.40000000",
+          "open": "1324.00000000",
+          "date": 1790040614
+        },
+        {
+          "pair": "UNI-BRL",
+          "high": "47.80000000",
+          "low": "43.01000000",
+          "vol": "9470.64306000",
+          "last": "45.86200000",
+          "buy": "46.25600000",
+          "sell": "46.51800000",
+          "open": "45.39700000",
+          "date": 1790040614
+        },
+        {
+          "pair": "TRX-BRL",
+          "high": "1.77880000",
+          "low": "1.75330000",
+          "vol": "24255.64900000",
+          "last": "1.77790000",
+          "buy": "1.77570000",
+          "sell": "1.77890000",
+          "open": "1.77310000",
+          "date": 1790040612
+        },
+        {
+          "pair": "BTC-BRL",
+          "high": "460000.00000000",
+          "low": "405000.00000000",
+          "vol": "44.85243272",
+          "last": "439215.00000000",
+          "buy": "439255.00000000",
+          "sell": "439256.00000000",
+          "open": "420920.00000000",
+          "date": 1790040612
+        },
+        {
+          "pair": "SOL-BRL",
+          "high": "614.48000000",
+          "low": "567.96000000",
+          "vol": "3994.42511000",
+          "last": "603.39000000",
+          "buy": "603.93000000",
+          "sell": "604.28000000",
+          "open": "580.98000000",
+          "date": 1790040614
+        },
+        {
+          "pair": "DOGE-BRL",
+          "high": "0.52369000",
+          "low": "0.45006000",
+          "vol": "507918.36600000",
+          "last": "0.50780000",
+          "buy": "0.50780000",
+          "sell": "0.51130000",
+          "open": "0.45584000",
+          "date": 1790040613
+        },
+        {
+          "pair": "LTC-BRL",
+          "high": "326.41000000",
+          "low": "300.61000000",
+          "vol": "356.01843100",
+          "last": "315.91000000",
+          "buy": "314.89000000",
+          "sell": "316.09000000",
+          "open": "305.99000000",
+          "date": 1790040607
+        },
+        {
+          "pair": "SUI-BRL",
+          "high": "5.71260000",
+          "low": "4.67190000",
+          "vol": "39765.81770000",
+          "last": "5.35000000",
+          "buy": "5.30040000",
+          "sell": "5.34920000",
+          "open": "4.89970000",
+          "date": 1790040609
+        },
+        {
+          "pair": "NEAR-BRL",
+          "high": "22.96000000",
+          "low": "19.77280000",
+          "vol": "33880.01440000",
+          "last": "22.62130000",
+          "buy": "22.41640000",
+          "sell": "22.52890000",
+          "open": "21.59210000",
+          "date": 1790040612
+        },
+        {
+          "pair": "XRP-BRL",
+          "high": "8.06550000",
+          "low": "7.25060000",
+          "vol": "278248.75400000",
+          "last": "7.71550000",
+          "buy": "7.77090000",
+          "sell": "7.78030000",
+          "open": "7.37450000",
+          "date": 1790040614
+        },
+        {
+          "pair": "ADA-BRL",
+          "high": "1.27300000",
+          "low": "1.16010000",
+          "vol": "110981.38640000",
+          "last": "1.25860000",
+          "buy": "1.25810000",
+          "sell": "1.25890000",
+          "open": "1.18700000",
+          "date": 1790040613
+        },
+        {
+          "pair": "AVAX-BRL",
+          "high": "59.75800000",
+          "low": "55.13200000",
+          "vol": "6670.66917000",
+          "last": "57.25000000",
+          "buy": "57.00100000",
+          "sell": "57.13400000",
+          "open": "59.05300000",
+          "date": 1790040601
+        },
+        {
+          "pair": "AAVE-BRL",
+          "high": "767.01000000",
+          "low": "708.41000000",
+          "vol": "229.14900200",
+          "last": "736.80000000",
+          "buy": "738.71000000",
+          "sell": "740.84000000",
+          "open": "716.00000000",
+          "date": 1790040614
+        },
+        {
+          "pair": "USDT-BRL",
+          "high": "5.16060000",
+          "low": "4.96250000",
+          "vol": "1798314.66060000",
+          "last": "5.12500000",
+          "buy": "5.12510000",
+          "sell": "5.12520000",
+          "open": "5.15920000",
+          "date": 1790040612
+        },
+        {
+          "pair": "USDC-BRL",
+          "high": "5.16480000",
+          "low": "5.11370000",
+          "vol": "11005056.52100000",
+          "last": "5.12800000",
+          "buy": "5.12670000",
+          "sell": "5.12800000",
+          "open": "5.16040000",
+          "date": 1790040612
+        },
+        {
+          "pair": "DOT-BRL",
+          "high": "6.62390000",
+          "low": "5.95000000",
+          "vol": "5996.97050000",
+          "last": "6.18990000",
+          "buy": "6.15000000",
+          "sell": "6.18990000",
+          "open": "6.10000000",
+          "date": 1790040607
+        }
+      ]
+    },
+    "economic_indicators_bcb": {
+      "results": [
+        {
+          "indicator": "SELIC",
+          "description": "Meta Selic definida pelo Copom",
+          "value": "13.75",
+          "date": "21/09/2026",
+          "unit": "% a.a.",
+          "source": "Banco Central do Brasil - SGS 432"
+        },
+        {
+          "indicator": "CDI",
+          "description": "CDI acumulada no mês anualizada, base 252",
+          "value": "13.65",
+          "date": "18/09/2026",
+          "unit": "% a.a.",
+          "source": "Banco Central do Brasil - SGS 4389"
+        }
+      ],
+      "errors": {}
+    }
+  },
+  "errors": {}
+}

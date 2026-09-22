@@ -7,8 +7,6 @@ import sys
 from datetime import date, datetime
 from typing import Any
 
-import requests
-
 from src.analysis import (
     TickerNotFoundError,
     filter_assets,
@@ -27,6 +25,7 @@ from src.display import (
     print_asset_details,
     print_assets_table,
     print_exported_files,
+    print_data_origin,
     print_header,
     print_indicators,
     print_market_summary,
@@ -34,9 +33,10 @@ from src.display import (
 )
 from src.exporter import export_market_data, save_raw_snapshot
 from src.scrapers.b3 import fetch_fiis, fetch_stocks
-from src.scrapers.common import ScraperError
+from src.scrapers.common import ScraperError, create_retry_session
 from src.scrapers.crypto import fetch_crypto_market
 from src.scrapers.economic_indicators import fetch_economic_indicators
+from src.snapshots import SAMPLE_SNAPSHOT, find_recent_snapshot, load_snapshot
 
 
 def parse_arguments() -> argparse.Namespace:
@@ -75,7 +75,75 @@ def parse_arguments() -> argparse.Namespace:
         default=15,
         help="Timeout de cada requisição HTTP em segundos (padrão: 15).",
     )
+    parser.add_argument(
+        "--offline",
+        action="store_true",
+        help="Usa o snapshot de demonstração incluído no projeto.",
+    )
+    parser.add_argument(
+        "--cache-minutes",
+        type=int,
+        default=0,
+        help="Reutiliza uma coleta local recente; 0 desativa o cache.",
+    )
     return parser.parse_args()
+
+
+def process_market_payloads(
+    raw_payloads: dict[str, Any],
+    initial_errors: dict[str, str] | None = None,
+) -> dict[str, Any]:
+    """Transform raw responses from either HTTP or a saved snapshot."""
+    errors = dict(initial_errors or {})
+
+    try:
+        stocks = build_b3_assets(raw_payloads["stocks_b3_ibov"], "IBOV")
+    except KeyError:
+        errors.setdefault("Ações - B3", "Dados ausentes no snapshot.")
+        stocks = empty_asset_dataframe()
+    except ValueError as exc:
+        errors["Ações - B3"] = str(exc)
+        stocks = empty_asset_dataframe()
+
+    try:
+        fiis = build_b3_assets(raw_payloads["fiis_b3_ifix"], "IFIX")
+    except KeyError:
+        errors.setdefault("FIIs - B3", "Dados ausentes no snapshot.")
+        fiis = empty_asset_dataframe()
+    except ValueError as exc:
+        errors["FIIs - B3"] = str(exc)
+        fiis = empty_asset_dataframe()
+
+    try:
+        crypto = build_crypto_assets(raw_payloads["crypto_mercado_bitcoin"])
+    except KeyError:
+        errors.setdefault("Criptomoedas - Mercado Bitcoin", "Dados ausentes no snapshot.")
+        crypto = empty_asset_dataframe()
+    except ValueError as exc:
+        errors["Criptomoedas - Mercado Bitcoin"] = str(exc)
+        crypto = empty_asset_dataframe()
+
+    try:
+        indicator_payload = raw_payloads["economic_indicators_bcb"]
+        errors.update(indicator_payload.get("errors", {}))
+        indicators = build_indicator_dataframe(indicator_payload)
+    except KeyError:
+        errors.setdefault("Indicadores - Banco Central", "Dados ausentes no snapshot.")
+        indicators = build_indicator_dataframe({"results": []})
+    except ValueError as exc:
+        errors["Indicadores - Banco Central"] = str(exc)
+        indicators = build_indicator_dataframe({"results": []})
+
+    market_data = combine_assets(stocks, fiis, crypto)
+    return {
+        "stocks": stocks,
+        "fiis": fiis,
+        "crypto": crypto,
+        "indicators": indicators,
+        "market_data": market_data,
+        "raw_payloads": raw_payloads,
+        "errors": errors,
+    }
 
 
 def collect_market_data(
@@ -90,35 +158,29 @@ def collect_market_data(
     if timeout <= 0:
         raise ValueError("O timeout deve ser maior que zero.")
 
-    stocks = empty_asset_dataframe()
-    fiis = empty_asset_dataframe()
-    crypto = empty_asset_dataframe()
     raw_payloads: dict[str, Any] = {}
     errors: dict[str, str] = {}
 
-    with requests.Session() as session:
+    with create_retry_session() as session:
         try:
             raw_payloads["stocks_b3_ibov"] = fetch_stocks(
                 timeout=timeout, session=session
             )
-            stocks = build_b3_assets(raw_payloads["stocks_b3_ibov"], "IBOV")
-        except (ScraperError, ValueError) as exc:
+        except ScraperError as exc:
             errors["Ações - B3"] = str(exc)
 
         try:
             raw_payloads["fiis_b3_ifix"] = fetch_fiis(
                 timeout=timeout, session=session
             )
-            fiis = build_b3_assets(raw_payloads["fiis_b3_ifix"], "IFIX")
-        except (ScraperError, ValueError) as exc:
+        except ScraperError as exc:
             errors["FIIs - B3"] = str(exc)
 
         try:
             raw_payloads["crypto_mercado_bitcoin"] = fetch_crypto_market(
                 timeout=timeout, session=session
             )
-            crypto = build_crypto_assets(raw_payloads["crypto_mercado_bitcoin"])
-        except (ScraperError, ValueError) as exc:
+        except ScraperError as exc:
             errors["Criptomoedas - Mercado Bitcoin"] = str(exc)
 
         try:
@@ -128,23 +190,47 @@ def collect_market_data(
                 reference_date=reference_date,
             )
             errors.update(raw_payloads["economic_indicators_bcb"].get("errors", {}))
-            indicators = build_indicator_dataframe(
-                raw_payloads["economic_indicators_bcb"]
-            )
-        except (ScraperError, ValueError) as exc:
+        except ScraperError as exc:
             errors["Indicadores - Banco Central"] = str(exc)
-            indicators = build_indicator_dataframe({"results": []})
+    return process_market_payloads(raw_payloads, errors)
 
-    market_data = combine_assets(stocks, fiis, crypto)
-    return {
-        "stocks": stocks,
-        "fiis": fiis,
-        "crypto": crypto,
-        "indicators": indicators,
-        "market_data": market_data,
-        "raw_payloads": raw_payloads,
-        "errors": errors,
-    }
+
+def load_market_data(args: argparse.Namespace, run_started_at: datetime) -> dict[str, Any]:
+    """Choose online, cached, or bundled demonstration data."""
+    if args.cache_minutes < 0:
+        raise ValueError("O tempo de cache não pode ser negativo.")
+
+    if args.offline:
+        snapshot = load_snapshot(SAMPLE_SNAPSHOT)
+        result = process_market_payloads(snapshot["sources"], snapshot["errors"])
+        result.update(
+            data_origin="Snapshot de demonstração",
+            snapshot_path=snapshot["path"],
+            source_collected_at=snapshot["collected_at"],
+        )
+        return result
+
+    if args.cache_minutes > 0:
+        snapshot = find_recent_snapshot(
+            args.cache_minutes,
+            now=run_started_at,
+        )
+        if snapshot is not None:
+            result = process_market_payloads(snapshot["sources"], snapshot["errors"])
+            result.update(
+                data_origin="Cache local",
+                snapshot_path=snapshot["path"],
+                source_collected_at=snapshot["collected_at"],
+            )
+            return result
+
+    result = collect_market_data(args.timeout, reference_date=run_started_at.date())
+    result.update(
+        data_origin="Internet",
+        snapshot_path=None,
+        source_collected_at=run_started_at,
+    )
+    return result
 
 
 def run(args: argparse.Namespace) -> int:
@@ -152,11 +238,15 @@ def run(args: argparse.Namespace) -> int:
     collected_at = datetime.now()
     print_header(collected_at)
     print("\nColetando dados de fontes públicas...")
-    result = collect_market_data(args.timeout, reference_date=collected_at.date())
+    result = load_market_data(args, collected_at)
 
-    raw_path = save_raw_snapshot(
-        result["raw_payloads"], result["errors"], collected_at
-    )
+    print_data_origin(result["data_origin"], result["source_collected_at"])
+
+    raw_path = result["snapshot_path"]
+    if raw_path is None:
+        raw_path = save_raw_snapshot(
+            result["raw_payloads"], result["errors"], collected_at
+        )
     exported_paths = export_market_data(
         result["stocks"],
         result["fiis"],

@@ -8,7 +8,7 @@ from typing import Any
 import pytest
 
 from src.scrapers.b3 import fetch_index_portfolio
-from src.scrapers.common import ScraperError
+from src.scrapers.common import ScraperError, create_retry_session
 from src.scrapers.crypto import fetch_crypto_market
 from src.scrapers.economic_indicators import fetch_economic_indicators
 
@@ -38,6 +38,17 @@ class FakeSession:
         """Record one GET and return the next payload."""
         self.calls.append({"url": url, **kwargs})
         return FakeResponse(self.payloads.pop(0))
+
+
+def test_retry_session_is_limited_to_transient_get_requests() -> None:
+    """The shared session should retry GET without retrying unsafe methods."""
+    session = create_retry_session(total_retries=2)
+    retry_policy = session.adapters["https://"].max_retries
+
+    assert retry_policy.total == 2
+    assert retry_policy.allowed_methods == frozenset({"GET"})
+    assert 503 in retry_policy.status_forcelist
+    session.close()
 
 
 def test_b3_scraper_combines_paginated_results() -> None:
@@ -111,4 +122,3 @@ def test_economic_scraper_limits_data_to_reference_date() -> None:
     assert all(
         call["params"]["dataFinal"] == "21/09/2026" for call in session.calls
     )
-

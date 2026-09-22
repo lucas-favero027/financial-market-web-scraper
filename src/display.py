@@ -51,6 +51,16 @@ def print_header(collected_at: datetime) -> None:
     print(f"Dados coletados em: {collected_at:%d/%m/%Y %H:%M:%S}")
 
 
+def print_data_origin(origin: str, snapshot_date: datetime | None = None) -> None:
+    """Identify whether this execution used the internet, cache, or demo data."""
+    date_text = (
+        f" | coleta original: {snapshot_date:%d/%m/%Y %H:%M:%S}"
+        if snapshot_date is not None and origin != "Internet"
+        else ""
+    )
+    print(f"Origem dos dados: {origin}{date_text}")
+
+
 def print_market_summary(summary: dict[str, int]) -> None:
     """Print counts for every supported category."""
     print("\nRESUMO DO MERCADO\n")
@@ -177,4 +187,3 @@ def print_exported_files(paths: dict[str, Path]) -> None:
     print("\nARQUIVOS GERADOS\n")
     for label, path in paths.items():
         print(f"{label}: {path}")
-
