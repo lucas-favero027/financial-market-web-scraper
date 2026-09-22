@@ -1,164 +1,214 @@
-"""Command-line entry point for the stock web scraper."""
+"""Command-line entry point for the financial market web scraper."""
 
 from __future__ import annotations
 
 import argparse
-import json
 import sys
-from copy import copy
-from datetime import datetime
-from pathlib import Path
+from datetime import date, datetime
 from typing import Any
 
-import pandas as pd
+import requests
 
-from src.analysis import TickerNotFoundError, find_stock, portfolio_summary
-from src.data_processing import build_dataframe
-from src.scraper import ScraperError, fetch_ibovespa_portfolio
-
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-RAW_DIR = PROJECT_ROOT / "data" / "raw"
-PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
+from src.analysis import (
+    TickerNotFoundError,
+    filter_assets,
+    find_asset,
+    market_summary,
+    paginate_assets,
+)
+from src.data_processing import (
+    build_b3_assets,
+    build_crypto_assets,
+    build_indicator_dataframe,
+    combine_assets,
+    empty_asset_dataframe,
+)
+from src.display import (
+    print_asset_details,
+    print_assets_table,
+    print_exported_files,
+    print_header,
+    print_indicators,
+    print_market_summary,
+    print_source_warnings,
+)
+from src.exporter import export_market_data, save_raw_snapshot
+from src.scrapers.b3 import fetch_fiis, fetch_stocks
+from src.scrapers.common import ScraperError
+from src.scrapers.crypto import fetch_crypto_market
+from src.scrapers.economic_indicators import fetch_economic_indicators
 
 
 def parse_arguments() -> argparse.Namespace:
-    """Parse command-line options."""
+    """Parse CLI filters, pagination, ticker, and HTTP timeout."""
     parser = argparse.ArgumentParser(
-        description="Coleta e analisa a carteira atual do Ibovespa publicada pela B3."
+        description=(
+            "Coleta ações, FIIs, criptomoedas, SELIC e CDI de fontes públicas."
+        )
     )
     parser.add_argument(
         "--ticker",
-        help="Ticker a consultar, por exemplo PETR4. Se omitido, será solicitado.",
+        help="Ticker a consultar, por exemplo PETR4, HGLG11 ou BTC.",
+    )
+    parser.add_argument(
+        "--type",
+        dest="asset_type",
+        choices=("all", "stocks", "fii", "crypto"),
+        default="all",
+        help="Categoria exibida na tabela (padrão: all).",
+    )
+    parser.add_argument(
+        "--page",
+        type=int,
+        default=1,
+        help="Página da listagem (padrão: 1).",
+    )
+    parser.add_argument(
+        "--page-size",
+        type=int,
+        default=20,
+        help="Itens por página, entre 5 e 100 (padrão: 20).",
     )
     parser.add_argument(
         "--timeout",
         type=float,
         default=15,
-        help="Timeout da requisição HTTP em segundos (padrão: 15).",
+        help="Timeout de cada requisição HTTP em segundos (padrão: 15).",
     )
     return parser.parse_args()
 
 
-def save_raw_data(raw_data: dict[str, Any]) -> Path:
-    """Save the unchanged JSON response for traceability."""
-    RAW_DIR.mkdir(parents=True, exist_ok=True)
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_path = RAW_DIR / f"ibov_carteira_bruta_{timestamp}.json"
-    output_path.write_text(
-        json.dumps(raw_data, ensure_ascii=False, indent=2), encoding="utf-8"
+def collect_market_data(
+    timeout: int | float,
+    reference_date: date | None = None,
+) -> dict[str, Any]:
+    """Collect and process each source independently.
+
+    A source failure produces an empty category and a warning instead of
+    hiding the other categories.
+    """
+    if timeout <= 0:
+        raise ValueError("O timeout deve ser maior que zero.")
+
+    stocks = empty_asset_dataframe()
+    fiis = empty_asset_dataframe()
+    crypto = empty_asset_dataframe()
+    raw_payloads: dict[str, Any] = {}
+    errors: dict[str, str] = {}
+
+    with requests.Session() as session:
+        try:
+            raw_payloads["stocks_b3_ibov"] = fetch_stocks(
+                timeout=timeout, session=session
+            )
+            stocks = build_b3_assets(raw_payloads["stocks_b3_ibov"], "IBOV")
+        except (ScraperError, ValueError) as exc:
+            errors["Ações - B3"] = str(exc)
+
+        try:
+            raw_payloads["fiis_b3_ifix"] = fetch_fiis(
+                timeout=timeout, session=session
+            )
+            fiis = build_b3_assets(raw_payloads["fiis_b3_ifix"], "IFIX")
+        except (ScraperError, ValueError) as exc:
+            errors["FIIs - B3"] = str(exc)
+
+        try:
+            raw_payloads["crypto_mercado_bitcoin"] = fetch_crypto_market(
+                timeout=timeout, session=session
+            )
+            crypto = build_crypto_assets(raw_payloads["crypto_mercado_bitcoin"])
+        except (ScraperError, ValueError) as exc:
+            errors["Criptomoedas - Mercado Bitcoin"] = str(exc)
+
+        try:
+            raw_payloads["economic_indicators_bcb"] = fetch_economic_indicators(
+                timeout=timeout,
+                session=session,
+                reference_date=reference_date,
+            )
+            errors.update(raw_payloads["economic_indicators_bcb"].get("errors", {}))
+            indicators = build_indicator_dataframe(
+                raw_payloads["economic_indicators_bcb"]
+            )
+        except (ScraperError, ValueError) as exc:
+            errors["Indicadores - Banco Central"] = str(exc)
+            indicators = build_indicator_dataframe({"results": []})
+
+    market_data = combine_assets(stocks, fiis, crypto)
+    return {
+        "stocks": stocks,
+        "fiis": fiis,
+        "crypto": crypto,
+        "indicators": indicators,
+        "market_data": market_data,
+        "raw_payloads": raw_payloads,
+        "errors": errors,
+    }
+
+
+def run(args: argparse.Namespace) -> int:
+    """Execute collection, display, ticker lookup, and exports."""
+    collected_at = datetime.now()
+    print_header(collected_at)
+    print("\nColetando dados de fontes públicas...")
+    result = collect_market_data(args.timeout, reference_date=collected_at.date())
+
+    raw_path = save_raw_snapshot(
+        result["raw_payloads"], result["errors"], collected_at
     )
-    return output_path
-
-
-def export_processed_data(data: pd.DataFrame) -> tuple[Path, Path]:
-    """Export the cleaned data to CSV and Excel."""
-    PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
-    reference_date = data["data_referencia"].iloc[0].strftime("%Y%m%d")
-    csv_path = PROCESSED_DIR / f"ibov_carteira_tratada_{reference_date}.csv"
-    xlsx_path = PROCESSED_DIR / f"ibov_carteira_tratada_{reference_date}.xlsx"
-
-    data.to_csv(csv_path, index=False, encoding="utf-8-sig", date_format="%Y-%m-%d")
-    with pd.ExcelWriter(xlsx_path, engine="openpyxl") as writer:
-        data.to_excel(writer, index=False, sheet_name="Carteira Ibovespa")
-        worksheet = writer.sheets["Carteira Ibovespa"]
-        worksheet.freeze_panes = "A2"
-        worksheet.auto_filter.ref = worksheet.dimensions
-        widths = {"A": 12, "B": 22, "C": 16, "D": 22, "E": 24, "F": 18}
-        for column, width in widths.items():
-            worksheet.column_dimensions[column].width = width
-        for cell in worksheet[1]:
-            header_font = copy(cell.font)
-            header_font.bold = True
-            cell.font = header_font
-        for row in range(2, worksheet.max_row + 1):
-            worksheet[f"D{row}"].number_format = "#,##0"
-            worksheet[f"E{row}"].number_format = "0.000"
-            worksheet[f"F{row}"].number_format = "dd/mm/yyyy"
-
-    return csv_path, xlsx_path
-
-
-def format_number_br(value: int | float, decimal_places: int = 0) -> str:
-    """Format a number for terminal display using Brazilian separators."""
-    formatted = f"{value:,.{decimal_places}f}"
-    return formatted.replace(",", "_").replace(".", ",").replace("_", ".")
-
-
-def print_portfolio_summary(data: pd.DataFrame) -> None:
-    """Print the main portfolio highlights."""
-    summary = portfolio_summary(data)
-    top_part = summary["maior_participacao"]
-    low_part = summary["menor_participacao"]
-    top_quantity = summary["maior_quantidade_teorica"]
-
-    print("\nResumo da carteira")
-    print(f"Data de referência: {summary['data_referencia']:%d/%m/%Y}")
-    print(f"Quantidade de ativos: {summary['total_ativos']}")
-    print(
-        "Maior participação: "
-        f"{top_part['ticker']} "
-        f"({format_number_br(top_part['participacao_percentual'], 3)}%)"
+    exported_paths = export_market_data(
+        result["stocks"],
+        result["fiis"],
+        result["crypto"],
+        result["indicators"],
+        result["market_data"],
     )
-    print(
-        "Menor participação: "
-        f"{low_part['ticker']} "
-        f"({format_number_br(low_part['participacao_percentual'], 3)}%)"
+    all_paths = {"raw_snapshot": raw_path, **exported_paths}
+
+    print_market_summary(market_summary(result["market_data"]))
+    print_indicators(result["indicators"])
+    print_source_warnings(result["errors"])
+
+    filtered = filter_assets(result["market_data"], args.asset_type)
+    page_data, total_pages, total_items = paginate_assets(
+        filtered,
+        page=args.page,
+        page_size=args.page_size,
     )
-    print(
-        "Maior quantidade teórica: "
-        f"{top_quantity['ticker']} "
-        f"({format_number_br(top_quantity['quantidade_teorica'])})"
+    print_assets_table(
+        page_data,
+        page=args.page,
+        total_pages=total_pages,
+        total_items=total_items,
+        page_size=args.page_size,
     )
 
+    selected_ticker = args.ticker
+    if selected_ticker is None:
+        print("\nDigite um ticker para consultar (Enter para encerrar):")
+        selected_ticker = input("> ").strip()
+    if selected_ticker:
+        print_asset_details(find_asset(result["market_data"], selected_ticker))
 
-def print_stock(stock: pd.Series) -> None:
-    """Print one stock in a readable terminal format."""
-    print("\nAção encontrada")
-    print(f"Ticker: {stock['ticker']}")
-    print(f"Nome: {stock['nome']}")
-    print(f"Tipo: {stock['tipo']}")
-    print(
-        "Quantidade teórica: "
-        f"{format_number_br(stock['quantidade_teorica'])}"
-    )
-    print(
-        "Participação no Ibovespa: "
-        f"{format_number_br(stock['participacao_percentual'], 3)}%"
-    )
-    print(f"Data de referência: {stock['data_referencia']:%d/%m/%Y}")
-
-
-def run(ticker: str | None, timeout: float) -> int:
-    """Execute the complete collection, cleaning, analysis, and export flow."""
-    print("Coletando a carteira do Ibovespa na B3...")
-    raw_data = fetch_ibovespa_portfolio(timeout=timeout)
-    raw_path = save_raw_data(raw_data)
-
-    print("Tratando os dados com pandas...")
-    data = build_dataframe(raw_data)
-    csv_path, xlsx_path = export_processed_data(data)
-
-    print_portfolio_summary(data)
-    selected_ticker = ticker or input("\nDigite um ticker para consultar: ").strip()
-    stock = find_stock(data, selected_ticker)
-    print_stock(stock)
-
-    print("\nArquivos gerados")
-    print(f"JSON bruto: {raw_path}")
-    print(f"CSV tratado: {csv_path}")
-    print(f"Excel tratado: {xlsx_path}")
+    print_exported_files(all_paths)
     return 0
+
+
+def _configure_console_encoding() -> None:
+    """Use UTF-8 so Portuguese text renders correctly in modern PowerShell."""
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
 
 
 def main() -> int:
     """Run the CLI and translate expected failures into clear messages."""
-    if hasattr(sys.stdout, "reconfigure"):
-        sys.stdout.reconfigure(encoding="utf-8")
-        sys.stderr.reconfigure(encoding="utf-8")
+    _configure_console_encoding()
     args = parse_arguments()
     try:
-        return run(args.ticker, args.timeout)
-    except (ScraperError, TickerNotFoundError, ValueError) as exc:
+        return run(args)
+    except (TickerNotFoundError, ValueError) as exc:
         print(f"\nErro: {exc}", file=sys.stderr)
         return 1
     except KeyboardInterrupt:

@@ -7,7 +7,18 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .coverage
+coverage.xml
 htmlcov/
+*.log
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*.json
+secrets*.json
 
 # IDE and operating system files
 .vscode/
@@ -15,9 +26,13 @@ htmlcov/
 .DS_Store
 Thumbs.db
 
+# Packaging artifacts
+build/
+dist/
+*.egg-info/
+
 # Generated data (keep directory placeholders)
 data/raw/*
 !data/raw/.gitkeep
 data/processed/*
 !data/processed/.gitkeep
-
