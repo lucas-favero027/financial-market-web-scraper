@@ -36,6 +36,7 @@ from src.display import (
     print_source_warnings,
 )
 from src.exporter import export_market_data, save_raw_snapshot
+from src.reporting import generate_market_report
 from src.scrapers.b3 import fetch_fiis, fetch_stocks
 from src.scrapers.common import ScraperError, create_retry_session
 from src.scrapers.crypto import fetch_crypto_market
@@ -112,6 +113,11 @@ def parse_arguments() -> argparse.Namespace:
         nargs="+",
         metavar="TICKER",
         help="Compara dois ou mais tickers, separados por espaço.",
+    )
+    parser.add_argument(
+        "--report",
+        action="store_true",
+        help="Gera relatório HTML e gráficos PNG em data/processed/report.",
     )
     return parser.parse_args()
 
@@ -282,6 +288,14 @@ def run(args: argparse.Namespace) -> int:
         result["market_data"],
     )
     all_paths = {"raw_snapshot": raw_path, **exported_paths}
+    if args.report:
+        report_paths = generate_market_report(
+            result["market_data"],
+            result["indicators"],
+            generated_at=collected_at,
+            data_origin=result["data_origin"],
+        )
+        all_paths.update(report_paths)
 
     print_market_summary(market_summary(result["market_data"]))
     print_indicators(result["indicators"])
@@ -314,7 +328,7 @@ def run(args: argparse.Namespace) -> int:
         print_asset_comparison(comparison)
 
     selected_ticker = args.ticker
-    has_noninteractive_analysis = args.ranking or args.compare
+    has_noninteractive_analysis = args.ranking or args.compare or args.report
     if selected_ticker is None and not has_noninteractive_analysis:
         print("\nDigite um ticker para consultar (Enter para encerrar):")
         selected_ticker = input("> ").strip()

@@ -9,6 +9,7 @@ from src.analysis import (
     TickerNotFoundError,
     build_named_ranking,
     compare_assets,
+    data_quality_summary,
     filter_assets,
     find_asset,
     market_summary,
@@ -89,3 +90,15 @@ def test_compare_assets_requires_two_distinct_tickers(
     """A single asset is a lookup, not a comparison."""
     with pytest.raises(ValueError, match="pelo menos dois"):
         compare_assets(sample_data, ["PETR4", "petr4"])
+
+
+def test_data_quality_distinguishes_missing_fields_from_zero(
+    sample_data: pd.DataFrame,
+) -> None:
+    """Coverage should describe availability without filling missing values."""
+    sample_data.loc[sample_data["ticker"] == "BTC", "price"] = 0.0
+
+    quality = data_quality_summary(sample_data).set_index("asset_type")
+
+    assert quality.loc["Criptomoeda", "price"] == 100.0
+    assert quality.loc["Ação", "price"] == 0.0

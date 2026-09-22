@@ -156,6 +156,34 @@ def compare_assets(data: pd.DataFrame, tickers: list[str]) -> pd.DataFrame:
     return pd.DataFrame(rows).reset_index(drop=True)
 
 
+def data_quality_summary(data: pd.DataFrame) -> pd.DataFrame:
+    """Calculate field coverage by category without treating nulls as zero."""
+    fields = (
+        "price",
+        "change_percent",
+        "open",
+        "high",
+        "low",
+        "volume",
+        "composition_percent",
+        "theoretical_quantity",
+        "updated_at",
+    )
+    records: list[dict[str, Any]] = []
+    for asset_type in ("Ação", "FII", "Criptomoeda"):
+        category = data.loc[data["asset_type"] == asset_type]
+        total = len(category)
+        row: dict[str, Any] = {"asset_type": asset_type, "records": total}
+        for field in fields:
+            row[field] = (
+                round(float(category[field].notna().mean() * 100), 1)
+                if total
+                else 0.0
+            )
+        records.append(row)
+    return pd.DataFrame(records)
+
+
 def find_stock(data: pd.DataFrame, ticker: str) -> pd.Series:
     """Backward-compatible alias for the original ticker lookup."""
     return find_asset(data, ticker)
