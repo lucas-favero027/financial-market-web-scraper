@@ -3,4 +3,3 @@
 from src.scrapers.common import ScraperError
 
 __all__ = ["ScraperError"]
-

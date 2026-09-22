@@ -123,4 +123,3 @@ def test_invalid_b3_structure_is_rejected() -> None:
             {"header": {"date": "21/09/26"}, "results": [{"cod": "PETR4"}]},
             "IBOV",
         )
-

@@ -11,9 +11,26 @@ from src.scrapers.common import DEFAULT_TIMEOUT, ScraperError, request_json
 SYMBOLS_URL = "https://api.mercadobitcoin.net/api/v4/symbols"
 TICKERS_URL = "https://api.mercadobitcoin.net/api/v4/tickers"
 CRYPTO_ASSETS = (
-    "BTC", "ETH", "SOL", "USDT", "USDC", "XRP", "ADA", "DOGE", "AVAX",
-    "LINK", "LTC", "BCH", "DOT", "UNI", "AAVE", "SUI", "TRX", "NEAR",
-    "ATOM", "PAXG",
+    "BTC",
+    "ETH",
+    "SOL",
+    "USDT",
+    "USDC",
+    "XRP",
+    "ADA",
+    "DOGE",
+    "AVAX",
+    "LINK",
+    "LTC",
+    "BCH",
+    "DOT",
+    "UNI",
+    "AAVE",
+    "SUI",
+    "TRX",
+    "NEAR",
+    "ATOM",
+    "PAXG",
 )
 
 
@@ -80,4 +97,3 @@ def fetch_crypto_market(
     finally:
         if should_close_session:
             http_session.close()
-

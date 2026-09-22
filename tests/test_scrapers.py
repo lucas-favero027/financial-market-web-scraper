@@ -51,6 +51,12 @@ def test_retry_session_is_limited_to_transient_get_requests() -> None:
     session.close()
 
 
+def test_retry_session_rejects_negative_attempts() -> None:
+    """Invalid retry configuration should fail before creating a session."""
+    with pytest.raises(ValueError, match="não pode ser negativo"):
+        create_retry_session(total_retries=-1)
+
+
 def test_b3_scraper_combines_paginated_results() -> None:
     """All pages from an index portfolio should be combined."""
     session = FakeSession(
@@ -119,6 +125,4 @@ def test_economic_scraper_limits_data_to_reference_date() -> None:
     )
 
     assert [item["indicator"] for item in result["results"]] == ["SELIC", "CDI"]
-    assert all(
-        call["params"]["dataFinal"] == "21/09/2026" for call in session.calls
-    )
+    assert all(call["params"]["dataFinal"] == "21/09/2026" for call in session.calls)

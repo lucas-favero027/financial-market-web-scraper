@@ -110,7 +110,10 @@ def rank_assets(
 ) -> pd.DataFrame:
     """Rank assets by an available numeric field."""
     allowed = {
-        "price", "change_percent", "volume", "composition_percent",
+        "price",
+        "change_percent",
+        "volume",
+        "composition_percent",
         "theoretical_quantity",
     }
     if column not in allowed:
@@ -176,9 +179,7 @@ def data_quality_summary(data: pd.DataFrame) -> pd.DataFrame:
         row: dict[str, Any] = {"asset_type": asset_type, "records": total}
         for field in fields:
             row[field] = (
-                round(float(category[field].notna().mean() * 100), 1)
-                if total
-                else 0.0
+                round(float(category[field].notna().mean() * 100), 1) if total else 0.0
             )
         records.append(row)
     return pd.DataFrame(records)

@@ -9,10 +9,7 @@ import requests
 
 from src.scrapers.common import DEFAULT_TIMEOUT, ScraperError, request_json
 
-SERIES_URL = (
-    "https://api.bcb.gov.br/dados/serie/"
-    "bcdata.sgs.{series_code}/dados"
-)
+SERIES_URL = "https://api.bcb.gov.br/dados/serie/bcdata.sgs.{series_code}/dados"
 SERIES = {
     "SELIC": {"series_code": 432, "description": "Meta Selic definida pelo Copom"},
     "CDI": {
@@ -87,4 +84,3 @@ def fetch_economic_indicators(
     finally:
         if should_close_session:
             http_session.close()
-

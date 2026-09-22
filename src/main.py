@@ -27,8 +27,8 @@ from src.display import (
     print_asset_comparison,
     print_asset_details,
     print_assets_table,
-    print_exported_files,
     print_data_origin,
+    print_exported_files,
     print_header,
     print_indicators,
     print_market_summary,
@@ -150,7 +150,9 @@ def process_market_payloads(
     try:
         crypto = build_crypto_assets(raw_payloads["crypto_mercado_bitcoin"])
     except KeyError:
-        errors.setdefault("Criptomoedas - Mercado Bitcoin", "Dados ausentes no snapshot.")
+        errors.setdefault(
+            "Criptomoedas - Mercado Bitcoin", "Dados ausentes no snapshot."
+        )
         crypto = empty_asset_dataframe()
     except ValueError as exc:
         errors["Criptomoedas - Mercado Bitcoin"] = str(exc)
@@ -203,9 +205,7 @@ def collect_market_data(
             errors["Ações - B3"] = str(exc)
 
         try:
-            raw_payloads["fiis_b3_ifix"] = fetch_fiis(
-                timeout=timeout, session=session
-            )
+            raw_payloads["fiis_b3_ifix"] = fetch_fiis(timeout=timeout, session=session)
         except ScraperError as exc:
             errors["FIIs - B3"] = str(exc)
 
@@ -228,7 +228,9 @@ def collect_market_data(
     return process_market_payloads(raw_payloads, errors)
 
 
-def load_market_data(args: argparse.Namespace, run_started_at: datetime) -> dict[str, Any]:
+def load_market_data(
+    args: argparse.Namespace, run_started_at: datetime
+) -> dict[str, Any]:
     """Choose online, cached, or bundled demonstration data."""
     if args.cache_minutes < 0:
         raise ValueError("O tempo de cache não pode ser negativo.")

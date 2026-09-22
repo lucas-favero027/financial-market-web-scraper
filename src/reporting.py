@@ -207,15 +207,15 @@ def generate_market_report(
     <p class="meta">Origem dos dados: {escape(data_origin)}</p>
   </header>
   <section class="cards">
-    <article class="card"><span>Ações</span><strong>{summary['stocks']}</strong></article>
-    <article class="card"><span>FIIs</span><strong>{summary['fiis']}</strong></article>
-    <article class="card"><span>Criptomoedas</span><strong>{summary['crypto']}</strong></article>
-    <article class="card"><span>Total de ativos</span><strong>{summary['total']}</strong></article>
+    <article class="card"><span>Ações</span><strong>{summary["stocks"]}</strong></article>
+    <article class="card"><span>FIIs</span><strong>{summary["fiis"]}</strong></article>
+    <article class="card"><span>Criptomoedas</span><strong>{summary["crypto"]}</strong></article>
+    <article class="card"><span>Total de ativos</span><strong>{summary["total"]}</strong></article>
   </section>
   <h2>Indicadores econômicos</h2>
   <div class="table-wrap">{indicators_html}</div>
   <h2>Análises visuais</h2>
-  <section class="charts">{chart_cards or '<p>Não há dados suficientes para gerar gráficos.</p>'}</section>
+  <section class="charts">{chart_cards or "<p>Não há dados suficientes para gerar gráficos.</p>"}</section>
   <h2>Qualidade e disponibilidade dos dados</h2>
   <p>A cobertura representa a proporção de registros em que cada campo foi fornecido pela fonte.</p>
   <div class="table-wrap">{quality_html}</div>
@@ -226,4 +226,7 @@ def generate_market_report(
 """
     report_path = output_dir / "index.html"
     report_path.write_text(html, encoding="utf-8")
-    return {"html_report": report_path, **{f"chart_{key}": value for key, value in chart_paths.items()}}
+    return {
+        "html_report": report_path,
+        **{f"chart_{key}": value for key, value in chart_paths.items()},
+    }

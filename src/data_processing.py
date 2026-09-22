@@ -101,9 +101,11 @@ def parse_unix_timestamp(value: Any) -> pd.Timestamp | pd.NaT:
         unit = "ms"
     else:
         unit = "s"
-    return pd.to_datetime(numeric_value, unit=unit, utc=True).tz_convert(
-        "America/Sao_Paulo"
-    ).tz_localize(None)
+    return (
+        pd.to_datetime(numeric_value, unit=unit, utc=True)
+        .tz_convert("America/Sao_Paulo")
+        .tz_localize(None)
+    )
 
 
 def classify_b3_index(index_code: str) -> tuple[str, str]:
@@ -181,9 +183,7 @@ def build_b3_assets(raw_data: dict[str, Any], index_code: str) -> pd.DataFrame:
                 "low": None,
                 "volume": None,
                 "composition_percent": parse_brazilian_number(item["part"]),
-                "theoretical_quantity": parse_brazilian_number(
-                    item["theoricalQty"]
-                ),
+                "theoretical_quantity": parse_brazilian_number(item["theoricalQty"]),
                 "source": source,
                 "updated_at": reference_date,
             }

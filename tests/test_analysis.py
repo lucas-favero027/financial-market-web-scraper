@@ -14,6 +14,7 @@ from src.analysis import (
     find_asset,
     market_summary,
     paginate_assets,
+    rank_assets,
 )
 from src.data_processing import ASSET_COLUMNS
 
@@ -63,6 +64,14 @@ def test_invalid_page_is_rejected(sample_data: pd.DataFrame) -> None:
     """Invalid pagination input should not silently return an empty page."""
     with pytest.raises(ValueError, match="não existe"):
         paginate_assets(sample_data, page=2, page_size=5)
+
+
+def test_rank_assets_validates_metric_and_limit(sample_data: pd.DataFrame) -> None:
+    """Only documented numeric metrics and positive limits are accepted."""
+    with pytest.raises(ValueError, match="não permitido"):
+        rank_assets(sample_data, "unknown")
+    with pytest.raises(ValueError, match="maior que zero"):
+        rank_assets(sample_data, "price", limit=0)
 
 
 def test_named_ranking_filters_category_and_metric(sample_data: pd.DataFrame) -> None:

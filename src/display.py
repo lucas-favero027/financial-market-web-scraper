@@ -158,15 +158,12 @@ def print_asset_details(asset: pd.Series) -> None:
         )
     if not _is_missing(asset["theoretical_quantity"]):
         print(
-            "Quantidade teórica: "
-            f"{format_number_br(asset['theoretical_quantity'], 0)}"
+            f"Quantidade teórica: {format_number_br(asset['theoretical_quantity'], 0)}"
         )
     if not _is_missing(asset["updated_at"]):
         updated = asset["updated_at"]
         date_format = (
-            "%d/%m/%Y"
-            if updated.time() == datetime.min.time()
-            else "%d/%m/%Y %H:%M:%S"
+            "%d/%m/%Y" if updated.time() == datetime.min.time() else "%d/%m/%Y %H:%M:%S"
         )
         print(f"Última atualização: {updated:{date_format}}")
     print(f"Fonte: {asset['source']}")

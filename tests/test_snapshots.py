@@ -30,6 +30,12 @@ def test_load_snapshot_validates_required_fields(tmp_path: Path) -> None:
         load_snapshot(path)
 
 
+def test_load_snapshot_reports_missing_file(tmp_path: Path) -> None:
+    """A missing demo or cache file should produce a domain-specific error."""
+    with pytest.raises(SnapshotError, match="não encontrado"):
+        load_snapshot(tmp_path / "missing.json")
+
+
 def test_recent_snapshot_is_used_inside_cache_window(tmp_path: Path) -> None:
     """The cache should return the newest valid collection within its TTL."""
     now = datetime(2026, 9, 22, 12, 0)

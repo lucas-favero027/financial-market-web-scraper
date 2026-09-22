@@ -62,7 +62,7 @@ def _format_worksheet(worksheet) -> None:  # type: ignore[no-untyped-def]
     for row in range(2, worksheet.max_row + 1):
         for field in ("price", "open", "high", "low"):
             if field in headers:
-                worksheet.cell(row, headers[field]).number_format = 'R$ #,##0.00'
+                worksheet.cell(row, headers[field]).number_format = "R$ #,##0.00"
         for field in ("change_percent", "composition_percent", "value"):
             if field in headers:
                 worksheet.cell(row, headers[field]).number_format = "0.000"
@@ -70,9 +70,9 @@ def _format_worksheet(worksheet) -> None:  # type: ignore[no-untyped-def]
             if field in headers:
                 worksheet.cell(row, headers[field]).number_format = "#,##0.########"
         if "updated_at" in headers:
-            worksheet.cell(row, headers["updated_at"]).number_format = (
-                "dd/mm/yyyy hh:mm:ss"
-            )
+            worksheet.cell(
+                row, headers["updated_at"]
+            ).number_format = "dd/mm/yyyy hh:mm:ss"
 
 
 def export_market_data(

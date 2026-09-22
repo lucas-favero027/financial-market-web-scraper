@@ -11,12 +11,10 @@ import requests
 from src.scrapers.common import DEFAULT_TIMEOUT, ScraperError, request_json
 
 BASE_URL = (
-    "https://sistemaswebb3-listados.b3.com.br/"
-    "indexProxy/indexCall/GetPortfolioDay/"
+    "https://sistemaswebb3-listados.b3.com.br/indexProxy/indexCall/GetPortfolioDay/"
 )
 PAGE_URL = (
-    "https://sistemaswebb3-listados.b3.com.br/"
-    "indexPage/day/{index_code}?language=pt-br"
+    "https://sistemaswebb3-listados.b3.com.br/indexPage/day/{index_code}?language=pt-br"
 )
 PAGE_SIZE = 120
 SUPPORTED_INDEXES = {"IBOV", "IFIX"}
@@ -127,4 +125,3 @@ def fetch_fiis(
 ) -> dict[str, Any]:
     """Fetch the current IFIX portfolio."""
     return fetch_index_portfolio("IFIX", timeout=timeout, session=session)
-
