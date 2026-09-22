@@ -1,0 +1,2 @@
+"""Stock Web Scraper package."""
+
