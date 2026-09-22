@@ -2,6 +2,7 @@
 
 [![Tests](https://github.com/bonitin-sama/financial-market-web-scraper/actions/workflows/tests.yml/badge.svg)](https://github.com/bonitin-sama/financial-market-web-scraper/actions/workflows/tests.yml)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
+[![Coverage](https://img.shields.io/badge/coverage-80%25-brightgreen)](#testes)
 [![Release](https://img.shields.io/github/v/release/bonitin-sama/financial-market-web-scraper)](https://github.com/bonitin-sama/financial-market-web-scraper/releases)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
@@ -24,6 +25,10 @@ decisões que possam ser explicadas integralmente em uma entrevista técnica.
 
 ![Consulta dos dados da PETR4 na CLI](docs/images/cli-petr4-details.png)
 
+### Relatório visual
+
+![Relatório HTML com resumo, indicadores e gráficos](docs/images/html-report-preview.png)
+
 As capturas acima foram produzidas a partir de uma execução real em 21/09/2026.
 Quantidades, datas, indicadores e dados de mercado podem mudar a cada coleta.
 
@@ -37,6 +42,9 @@ Demonstrar conhecimentos práticos de:
 - limpeza, tipagem e união de dados com `pandas`;
 - tratamento correto de valores ausentes;
 - classificação, busca, filtros e paginação;
+- rankings e comparação entre ativos;
+- execução reproduzível com snapshot offline e cache opcional;
+- relatório HTML com gráficos e diagnóstico de disponibilidade dos dados;
 - exportação para CSV e Excel;
 - testes unitários sem dependência da internet;
 - organização e documentação de um projeto Python.
@@ -81,10 +89,13 @@ flowchart LR
     B3["B3<br/>IBOV e IFIX"] --> S["Scrapers HTTP<br/>requests"]
     MB["Mercado Bitcoin<br/>Criptomoedas"] --> S
     BCB["Banco Central<br/>SELIC e CDI"] --> S
+    SNAP["Snapshot versionado<br/>modo offline"] --> P
+    CACHE["Cache local<br/>opcional"] --> P
     S --> P["Limpeza e padronização<br/>pandas"]
     P --> A["Análise e classificação"]
     A --> C["CLI"]
     A --> E["CSV e XLSX"]
+    A --> R["Relatório HTML<br/>gráficos PNG"]
 ```
 
 ## Fontes dos dados
@@ -143,16 +154,21 @@ financial-market-web-scraper/
 │   ├── analysis.py
 │   ├── display.py
 │   ├── exporter.py
+│   ├── reporting.py
+│   ├── snapshots.py
 │   └── main.py
 ├── data/
 │   ├── raw/
-│   └── processed/
+│   ├── processed/
+│   └── samples/
 ├── docs/
 │   └── images/
 ├── tests/
 ├── .github/workflows/tests.yml
 ├── .gitignore
+├── pyproject.toml
 ├── requirements.txt
+├── requirements-dev.txt
 ├── README.md
 └── LICENSE
 ```
@@ -167,6 +183,8 @@ financial-market-web-scraper/
 - `analysis.py`: busca, filtros, contagens, paginação e rankings.
 - `display.py`: formatação da interface no terminal.
 - `exporter.py`: persistência do JSON bruto, CSVs e workbook Excel.
+- `reporting.py`: relatório HTML, gráficos PNG e resumo de qualidade.
+- `snapshots.py`: leitura do snapshot de demonstração e cache local.
 - `main.py`: coordenação do fluxo completo.
 - `scraper.py`: compatibilidade com o nome usado na primeira versão.
 
@@ -201,7 +219,10 @@ nunca é convertida em zero.
 - requests
 - pandas
 - openpyxl
+- matplotlib
 - pytest
+- pytest-cov
+- Ruff
 
 Não são utilizados Selenium, Playwright, `yfinance` ou SDKs financeiros.
 
@@ -226,6 +247,12 @@ Instale as dependências:
 ```powershell
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
+```
+
+Para desenvolver, executar testes e validar o estilo do código:
+
+```powershell
+python -m pip install -r requirements-dev.txt
 ```
 
 Se a política do PowerShell impedir a ativação, use diretamente:
@@ -266,6 +293,41 @@ python -m src.main --page 2 --page-size 20
 python -m src.main --type fii --page 3 --page-size 15
 ```
 
+Executar sem internet usando o snapshot real incluído no repositório:
+
+```powershell
+python -m src.main --offline
+```
+
+Reutilizar uma coleta local feita nos últimos 30 minutos:
+
+```powershell
+python -m src.main --cache-minutes 30
+```
+
+Gerar rankings:
+
+```powershell
+python -m src.main --offline --ranking ibov --ranking-limit 10
+python -m src.main --offline --ranking fiis
+python -m src.main --offline --ranking crypto-change
+python -m src.main --offline --ranking crypto-losers
+python -m src.main --offline --ranking crypto-volume
+```
+
+Comparar ativos de categorias diferentes:
+
+```powershell
+python -m src.main --offline --compare PETR4 HGLG11 BTC
+```
+
+Gerar e abrir o relatório visual:
+
+```powershell
+python -m src.main --offline --report
+Start-Process .\data\processed\report\index.html
+```
+
 Parâmetros disponíveis:
 
 | Parâmetro | Descrição |
@@ -275,6 +337,12 @@ Parâmetros disponíveis:
 | `--page` | Página da listagem |
 | `--page-size` | Entre 5 e 100 registros |
 | `--timeout` | Timeout HTTP por requisição |
+| `--offline` | Usa o snapshot versionado e dispensa conexão com a internet |
+| `--cache-minutes` | Reutiliza uma coleta local ainda válida; `0` desativa |
+| `--ranking` | `ibov`, `fiis`, `crypto-change`, `crypto-losers` ou `crypto-volume` |
+| `--ranking-limit` | Número de posições exibidas no ranking |
+| `--compare` | Dois ou mais tickers separados por espaço |
+| `--report` | Gera relatório HTML e gráficos PNG |
 
 ## Exemplo real da CLI
 
@@ -323,10 +391,19 @@ crypto.csv
 economic_indicators.csv
 market_data.csv
 market_data.xlsx
+report/index.html
+report/ibov-composition.png
+report/ifix-composition.png
+report/crypto-change.png
+report/crypto-volume.png
 ```
 
 O Excel possui abas separadas, filtros, cabeçalho congelado, formatação
 numérica e uma aba consolidada. Dados gerados são ignorados pelo Git.
+
+O relatório HTML é responsivo e reúne contagens, indicadores econômicos,
+gráficos e uma tabela de cobertura dos campos por categoria. Essa tabela deixa
+explícito por que determinados dados aparecem como indisponíveis.
 
 ## Tratamento de erros
 
@@ -341,7 +418,9 @@ numérica e uma aba consolidada. Dados gerados são ignorados pelo Git.
 ## Testes
 
 ```powershell
-python -m pytest -v
+python -m ruff check .
+python -m ruff format --check .
+python -m pytest --cov=src --cov-report=term-missing
 ```
 
 Os testes usam respostas HTTP falsas e cobrem:
@@ -353,10 +432,16 @@ Os testes usam respostas HTTP falsas e cobrem:
 - valores ausentes sem conversão para zero;
 - ticker inexistente;
 - filtros, contagens e paginação da CLI.
+- snapshots, validade do cache e modo offline;
+- rankings, comparação e qualidade dos dados;
+- geração do relatório visual;
+- exportação CSV/XLSX e fluxo integrado da CLI.
 
-O workflow do GitHub Actions executa a suíte em cada `push` e `pull request`.
+O projeto possui 36 testes e exige cobertura mínima de 80%. O GitHub Actions
+executa lint, verificação de formatação e testes com cobertura em cada `push` e
+`pull request`.
 
-![Execução da suíte com 17 testes aprovados](docs/images/tests-passing.png)
+![Execução da suíte com 36 testes aprovados](docs/images/tests-passing.png)
 
 ## Considerações sobre Web Scraping
 
@@ -375,17 +460,21 @@ termos de cada fonte e implemente cache e limitação de chamadas.
 - A lista de criptomoedas é uma seleção configurada de 20 pares BRL.
 - A variação de cripto representa a diferença entre `last` e `open` fornecidos
   pelo Mercado Bitcoin para o período do ticker.
+- O volume de cada criptomoeda está na unidade do próprio ativo. Rankings de
+  volume são nominais e não equivalem diretamente a volume financeiro em BRL.
+- O snapshot offline representa uma coleta histórica fixa e é identificado
+  claramente no terminal e no relatório.
 - Endpoints usados por páginas web podem mudar sem versionamento público.
 - Os dados são informativos e não constituem recomendação de investimento.
 
 ## Possíveis melhorias
 
 - adicionar uma fonte autorizada de preços para ações e FIIs;
-- permitir configurar a lista de criptomoedas por arquivo;
 - armazenar snapshots históricos para análise temporal;
-- implementar cache local e política de retries com backoff;
-- adicionar comparação entre vários tickers;
-- criar gráficos a partir dos arquivos exportados.
+- permitir configurar a lista de criptomoedas por arquivo;
+- calcular volume financeiro em BRL quando a fonte oferecer dados adequados;
+- criar séries históricas e gráficos de evolução;
+- disponibilizar o projeto como pacote instalável com comando próprio.
 
 ## Licença
 
