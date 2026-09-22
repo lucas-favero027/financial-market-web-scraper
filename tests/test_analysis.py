@@ -1,46 +1,63 @@
-"""Tests for stock lookup and portfolio analysis."""
+"""Tests for ticker search, category counts, filters, and pagination."""
 
 from __future__ import annotations
 
 import pandas as pd
 import pytest
 
-from src.analysis import TickerNotFoundError, find_stock, portfolio_summary, rank_stocks
+from src.analysis import (
+    TickerNotFoundError,
+    filter_assets,
+    find_asset,
+    market_summary,
+    paginate_assets,
+)
+from src.data_processing import ASSET_COLUMNS
 
 
 @pytest.fixture
 def sample_data() -> pd.DataFrame:
-    """Create a small cleaned portfolio for analysis tests."""
-    return pd.DataFrame(
-        {
-            "ticker": ["PETR4", "VALE3", "ITUB4"],
-            "nome": ["PETROBRAS", "VALE", "ITAUUNIBANCO"],
-            "tipo": ["PN N2", "ON NM", "PN N1"],
-            "quantidade_teorica": [4_000, 2_000, 5_000],
-            "participacao_percentual": [8.3, 11.0, 8.4],
-            "data_referencia": pd.to_datetime(["2026-09-21"] * 3),
-        }
-    )
+    """Create standardized rows for the three asset categories."""
+    rows = [
+        {"ticker": "PETR4", "name": "PETROBRAS", "asset_type": "Ação"},
+        {"ticker": "HGLG11", "name": "FII HGLG", "asset_type": "FII"},
+        {"ticker": "BTC", "name": "Bitcoin", "asset_type": "Criptomoeda"},
+    ]
+    return pd.DataFrame(rows).reindex(columns=ASSET_COLUMNS)
 
 
-def test_find_stock_is_case_insensitive(sample_data: pd.DataFrame) -> None:
+def test_find_asset_is_case_insensitive(sample_data: pd.DataFrame) -> None:
     """Ticker lookup should ignore case and spaces."""
-    assert find_stock(sample_data, " petr4 ")["nome"] == "PETROBRAS"
+    assert find_asset(sample_data, " petr4 ")["name"] == "PETROBRAS"
 
 
-def test_find_stock_reports_missing_ticker(sample_data: pd.DataFrame) -> None:
-    """An absent ticker should produce a domain-specific error."""
-    with pytest.raises(TickerNotFoundError, match="não faz parte"):
-        find_stock(sample_data, "XXXX3")
+def test_find_asset_reports_missing_ticker(sample_data: pd.DataFrame) -> None:
+    """An unknown ticker should produce a clear domain error."""
+    with pytest.raises(TickerNotFoundError, match="não foi encontrado"):
+        find_asset(sample_data, "XXXX3")
 
 
-def test_summary_and_ranking(sample_data: pd.DataFrame) -> None:
-    """Summary and ranking should use numeric columns correctly."""
-    summary = portfolio_summary(sample_data)
-    ranking = rank_stocks(sample_data, "participacao_percentual", limit=2)
+def test_summary_always_contains_all_categories(sample_data: pd.DataFrame) -> None:
+    """Category counts should include explicit zeros."""
+    stock_only = sample_data.loc[sample_data["asset_type"] == "Ação"]
 
-    assert summary["total_ativos"] == 3
-    assert summary["maior_participacao"]["ticker"] == "VALE3"
-    assert summary["maior_quantidade_teorica"]["ticker"] == "ITUB4"
-    assert ranking["ticker"].tolist() == ["VALE3", "ITUB4"]
+    summary = market_summary(stock_only)
+
+    assert summary == {"stocks": 1, "fiis": 0, "crypto": 0, "total": 1}
+
+
+def test_filter_and_paginate_assets(sample_data: pd.DataFrame) -> None:
+    """CLI filters and pages should return predictable subsets."""
+    crypto = filter_assets(sample_data, "crypto")
+    page, total_pages, total_items = paginate_assets(sample_data, 1, 5)
+
+    assert crypto["ticker"].tolist() == ["BTC"]
+    assert page["ticker"].tolist() == ["PETR4", "HGLG11", "BTC"]
+    assert (total_pages, total_items) == (1, 3)
+
+
+def test_invalid_page_is_rejected(sample_data: pd.DataFrame) -> None:
+    """Invalid pagination input should not silently return an empty page."""
+    with pytest.raises(ValueError, match="não existe"):
+        paginate_assets(sample_data, page=2, page_size=5)
 
