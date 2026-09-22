@@ -1,47 +1,168 @@
-# Stock Web Scraper — Carteira do Ibovespa
+# Financial Market Web Scraper
 
-Projeto em Python que coleta a carteira diária do Ibovespa diretamente de uma
-fonte pública da B3, transforma os dados em um `DataFrame`, permite consultar
-uma ação pelo ticker e exporta os resultados tratados para CSV e Excel.
+Projeto em Python para coletar, padronizar, analisar e exportar dados públicos
+do mercado financeiro brasileiro. A aplicação utiliza requisições HTTP diretas
+com `requests`, transforma respostas JSON em `DataFrame` com `pandas` e oferece
+uma interface de terminal para consulta e filtragem dos ativos.
 
-O projeto foi desenvolvido com foco em um processo seletivo de estágio:
-funções pequenas, responsabilidades separadas, tratamento de erros e decisões
-técnicas fáceis de explicar em uma entrevista.
+O projeto foi desenvolvido para um processo seletivo de estágio. A arquitetura
+prioriza funções pequenas, responsabilidades claras, tratamento de erros e
+decisões que possam ser explicadas integralmente em uma entrevista técnica.
 
 ## Objetivo
 
-Demonstrar conhecimentos de:
+Demonstrar conhecimentos práticos de:
 
-- requisições HTTP com `requests`;
-- inspeção de uma página e consumo do endpoint usado por ela;
-- validação de respostas JSON;
-- limpeza e tipagem de dados com `pandas`;
-- consulta e ranking de ações;
-- exportação para CSV e XLSX;
-- testes unitários sem dependência da internet.
+- requisições HTTP, headers, timeout e status HTTP;
+- inspeção dos endpoints utilizados por páginas públicas;
+- validação e interpretação de JSON;
+- limpeza, tipagem e união de dados com `pandas`;
+- tratamento correto de valores ausentes;
+- classificação, busca, filtros e paginação;
+- exportação para CSV e Excel;
+- testes unitários sem dependência da internet;
+- organização e documentação de um projeto Python.
 
-## Fonte dos dados
+## Categorias suportadas
 
-A fonte é a [carteira diária do Ibovespa publicada pela B3](https://sistemaswebb3-listados.b3.com.br/indexPage/day/IBOV?language=pt-br).
+| Categoria | Cobertura atual | Informações disponíveis |
+| --- | --- | --- |
+| Ações | Componentes do Ibovespa | Ticker, nome, classe, participação, quantidade teórica e data |
+| FIIs | Componentes do IFIX | Ticker, nome, classe, participação, quantidade teórica e data |
+| Criptomoedas | 20 pares selecionados em BRL | Preço, variação calculada, abertura, máxima, mínima, volume e atualização |
+| SELIC | Meta definida pelo Copom | Taxa anual e data de referência |
+| CDI | Série anualizada base 252 | Taxa anual e data de referência |
 
-A página é uma aplicação web. A tabela visível não vem pronta no HTML: o
-JavaScript da própria página chama um endpoint público do mesmo domínio e
-recebe JSON. O módulo `src/scraper.py` reproduz essa requisição `GET` com
-`requests`, sem navegador automatizado, login, CAPTCHA ou mecanismo para
-contornar bloqueios.
+SELIC e CDI são indicadores econômicos. Eles são mantidos em uma tabela
+separada e nunca são tratados como ativos negociáveis.
 
-O endpoint fornece os seguintes dados usados pelo projeto:
+## Project Pipeline
 
-- ticker;
-- nome resumido do ativo;
-- tipo e classe da ação;
-- quantidade teórica na carteira;
-- participação percentual no Ibovespa;
-- data de referência da carteira.
+```text
+Request
+   ↓
+Data Source
+   ↓
+HTML / JSON Parsing
+   ↓
+Data Cleaning
+   ↓
+Pandas DataFrame
+   ↓
+Asset Classification
+   ↓
+Financial Analysis
+   ↓
+CLI
+   ↓
+CSV / XLSX Export
+```
 
-O scraper faz poucas requisições, usa timeout e identifica o projeto no
-`User-Agent`. Use os dados de forma educacional e consulte os termos da B3
-antes de adaptar o projeto para uso frequente ou comercial.
+## Fontes dos dados
+
+### Ações e FIIs — B3
+
+- [Carteira diária do Ibovespa](https://sistemaswebb3-listados.b3.com.br/indexPage/day/IBOV?language=pt-br)
+- [Carteira diária do IFIX](https://sistemaswebb3-listados.b3.com.br/indexPage/day/IFIX?language=pt-br)
+
+As páginas são aplicações web. A tabela não vem pronta no HTML: o JavaScript
+da própria página chama um endpoint JSON público do mesmo domínio. O módulo
+`src/scrapers/b3.py` reproduz somente essa requisição com `requests`.
+
+O endpoint fornece composição das carteiras, não cotações. Por isso, preço,
+variação, abertura, máxima, mínima e volume ficam ausentes para ações e FIIs.
+O programa não estima nem preenche esses campos artificialmente.
+
+### Criptomoedas — Mercado Bitcoin
+
+- [Documentação da API pública v4](https://api.mercadobitcoin.net/)
+
+Os endpoints públicos de símbolos e tickers fornecem metadados e cotações de
+pares em reais sem exigir autenticação. O projeto consulta 20 pares configurados
+em `src/scrapers/crypto.py`. A variação é calculada somente quando a fonte
+fornece preço atual e abertura:
+
+```text
+variação (%) = (último preço / abertura - 1) × 100
+```
+
+### SELIC e CDI — Banco Central do Brasil
+
+- [Série SGS 432 — Meta Selic definida pelo Copom](https://dadosabertos.bcb.gov.br/dataset/432-taxa-de-juros---meta-selic-definida-pelo-copom)
+- [API pública de séries temporais do BCB](https://dados.gov.br/dados/conjuntos-dados/24024-sgs)
+- Série SGS 4389 — CDI acumulada no mês anualizada, base 252.
+
+A consulta informa uma data final igual ao dia da execução. Isso impede que
+uma observação futura já cadastrada na série seja exibida antes de entrar em
+vigência. O CDI é lido diretamente de sua série; não é estimado a partir da
+SELIC.
+
+## Arquitetura
+
+```text
+financial-market-web-scraper/
+├── src/
+│   ├── scrapers/
+│   │   ├── __init__.py
+│   │   ├── common.py
+│   │   ├── b3.py
+│   │   ├── crypto.py
+│   │   └── economic_indicators.py
+│   ├── __init__.py
+│   ├── scraper.py
+│   ├── data_processing.py
+│   ├── analysis.py
+│   ├── display.py
+│   ├── exporter.py
+│   └── main.py
+├── data/
+│   ├── raw/
+│   └── processed/
+├── tests/
+├── .github/workflows/tests.yml
+├── .gitignore
+├── requirements.txt
+├── README.md
+└── LICENSE
+```
+
+### Responsabilidades
+
+- `scrapers/common.py`: tratamento HTTP compartilhado.
+- `scrapers/b3.py`: carteiras IBOV e IFIX.
+- `scrapers/crypto.py`: metadados e tickers do Mercado Bitcoin.
+- `scrapers/economic_indicators.py`: séries SELIC e CDI do Banco Central.
+- `data_processing.py`: limpeza e padronização dos DataFrames.
+- `analysis.py`: busca, filtros, contagens, paginação e rankings.
+- `display.py`: formatação da interface no terminal.
+- `exporter.py`: persistência do JSON bruto, CSVs e workbook Excel.
+- `main.py`: coordenação do fluxo completo.
+- `scraper.py`: compatibilidade com o nome usado na primeira versão.
+
+## Estrutura padronizada dos ativos
+
+Todos os ativos usam as mesmas colunas:
+
+```text
+ticker
+name
+asset_type
+subtype
+price
+change_percent
+open
+high
+low
+volume
+composition_percent
+theoretical_quantity
+source
+updated_at
+```
+
+Uma fonte não precisa oferecer todos os campos. Valores desconhecidos são
+armazenados como `None`, `pd.NA` ou `NaT`, conforme o tipo. Uma taxa desconhecida
+nunca é convertida em zero.
 
 ## Tecnologias
 
@@ -51,91 +172,39 @@ antes de adaptar o projeto para uso frequente ou comercial.
 - openpyxl
 - pytest
 
-BeautifulSoup não é necessário porque a fonte já entrega dados estruturados em
-JSON. Fazer parsing do HTML não acrescentaria informação e tornaria o projeto
-mais frágil.
-
-## Arquitetura
-
-```text
-stock-web-scraper/
-├── src/
-│   ├── __init__.py
-│   ├── scraper.py
-│   ├── data_processing.py
-│   ├── analysis.py
-│   └── main.py
-├── data/
-│   ├── raw/
-│   └── processed/
-├── tests/
-├── .gitignore
-├── requirements.txt
-├── README.md
-└── LICENSE
-```
-
-- `scraper.py`: faz somente a comunicação HTTP e valida a estrutura mínima da
-  resposta.
-- `data_processing.py`: cria o DataFrame, limpa textos e converte números no
-  formato brasileiro.
-- `analysis.py`: consulta tickers, calcula destaques e produz rankings.
-- `main.py`: coordena o fluxo, exibe mensagens no terminal e salva os arquivos.
-- `tests/`: testa cada camada com dados controlados; a camada HTTP usa uma
-  sessão falsa e não chama a B3.
-
-## Fluxo da aplicação
-
-```text
-HTTP Request (B3)
-        ↓
-JSON bruto em data/raw
-        ↓
-Validação e parsing
-        ↓
-pandas DataFrame
-        ↓
-Limpeza e conversão de tipos
-        ↓
-Consulta e análise por ticker
-        ↓
-CSV e XLSX em data/processed
-```
+Não são utilizados Selenium, Playwright, `yfinance` ou SDKs financeiros.
 
 ## Instalação no Windows
 
-Abra o PowerShell e entre na pasta do projeto:
+Clone o repositório e entre na pasta:
 
 ```powershell
-cd C:\Users\Lucas\Documents\stock-web-scraper
+git clone https://github.com/bonitin-sama/financial-market-web-scraper.git
+cd financial-market-web-scraper
 ```
 
-Crie o ambiente virtual, caso ainda não exista:
+Crie e ative um ambiente virtual:
 
 ```powershell
 py -m venv .venv
-```
-
-Ative o ambiente:
-
-```powershell
 .\.venv\Scripts\Activate.ps1
-```
-
-Se o PowerShell bloquear a ativação, é possível executar o Python do ambiente
-diretamente, sem alterar a política do sistema:
-
-```powershell
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
 Instale as dependências:
 
 ```powershell
+python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-## Como executar
+Se a política do PowerShell impedir a ativação, use diretamente:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m src.main
+```
+
+## Execução
 
 Modo interativo:
 
@@ -143,93 +212,149 @@ Modo interativo:
 python -m src.main
 ```
 
-A aplicação coleta e exporta os dados, mostra um resumo e pede um ticker, por
-exemplo `PETR4`, `VALE3` ou `ITUB4`.
-
-Também é possível informar o ticker na própria linha de comando:
+Consultar diretamente um ticker:
 
 ```powershell
 python -m src.main --ticker PETR4
+python -m src.main --ticker HGLG11
+python -m src.main --ticker BTC
 ```
 
-Exemplo resumido de saída:
+Filtrar a listagem:
+
+```powershell
+python -m src.main --type stocks
+python -m src.main --type fii
+python -m src.main --type crypto
+```
+
+Navegar pelas páginas:
+
+```powershell
+python -m src.main --page 2 --page-size 20
+python -m src.main --type fii --page 3 --page-size 15
+```
+
+Parâmetros disponíveis:
+
+| Parâmetro | Descrição |
+| --- | --- |
+| `--ticker` | Consulta individual opcional |
+| `--type` | `all`, `stocks`, `fii` ou `crypto` |
+| `--page` | Página da listagem |
+| `--page-size` | Entre 5 e 100 registros |
+| `--timeout` | Timeout HTTP por requisição |
+
+## Exemplo real da CLI
+
+Trecho de uma coleta realizada em 21/09/2026:
 
 ```text
-Coletando a carteira do Ibovespa na B3...
-Tratando os dados com pandas...
+============================================================================================
+FINANCIAL MARKET WEB SCRAPER
+============================================================================================
+Dados coletados em: 21/09/2026 21:38:05
 
-Resumo da carteira
-Data de referência: 21/09/2026
-Quantidade de ativos: 76
-Maior participação: VALE3 (...%)
+RESUMO DO MERCADO
 
-Ação encontrada
-Ticker: PETR4
-Nome: PETROBRAS
-Tipo: PN N2
-Quantidade teórica: ...
-Participação no Ibovespa: ...%
+Ações encontradas:               76
+Fundos Imobiliários encontrados: 99
+Criptomoedas encontradas:        20
+Total de ativos:                 195
+
+INDICADORES ECONÔMICOS
+
+SELIC: 13,75% a.a. (referência: 21/09/2026)
+CDI: 13,65% a.a. (referência: 18/09/2026)
 ```
 
-Os valores mudam quando a B3 atualiza a carteira. Por isso, o exemplo não fixa
-números que podem ficar desatualizados.
+Os números são exemplos reais daquela execução e mudarão com as fontes.
 
-## Arquivos exportados
+## Tratamento dos dados
 
-- `data/raw/ibov_carteira_bruta_AAAAMMDD_HHMMSS.json`: resposta original para
-  rastreabilidade.
-- `data/processed/ibov_carteira_tratada_AAAAMMDD.csv`: dados tratados em UTF-8.
-- `data/processed/ibov_carteira_tratada_AAAAMMDD.xlsx`: planilha com filtro,
-  cabeçalho congelado e larguras ajustadas.
+- números da B3 são convertidos do formato brasileiro;
+- valores JSON do Mercado Bitcoin são convertidos para tipos numéricos;
+- espaços duplicados e ticker casing são normalizados;
+- datas de cada fonte são convertidas para `datetime`;
+- ativos são classificados pela fonte, não apenas pelo sufixo do ticker;
+- duplicidades e mudanças estruturais geram erros claros;
+- campos não fornecidos permanecem ausentes.
 
-Os arquivos gerados são ignorados pelo Git para evitar commits de dados que
-mudam diariamente. Os diretórios permanecem no repositório por meio de
-arquivos `.gitkeep`.
+## Exportação
+
+Cada execução grava um snapshot JSON em `data/raw/` e os arquivos abaixo em
+`data/processed/`:
+
+```text
+stocks.csv
+fiis.csv
+crypto.csv
+economic_indicators.csv
+market_data.csv
+market_data.xlsx
+```
+
+O Excel possui abas separadas, filtros, cabeçalho congelado, formatação
+numérica e uma aba consolidada. Dados gerados são ignorados pelo Git.
+
+## Tratamento de erros
+
+- toda requisição possui timeout e `raise_for_status()`;
+- respostas JSON e campos obrigatórios são validados;
+- falhas de uma fonte não bloqueiam as demais categorias;
+- categorias indisponíveis aparecem com contagem zero;
+- SELIC e CDI indisponíveis aparecem como `indisponível`;
+- tickers inexistentes geram mensagem clara e sugestões quando possível;
+- páginas e filtros inválidos são rejeitados explicitamente.
 
 ## Testes
-
-Execute:
 
 ```powershell
 python -m pytest -v
 ```
 
-Os testes cobrem paginação do scraper, conversão de números brasileiros,
-limpeza do DataFrame, consulta de ticker inexistente e rankings.
+Os testes usam respostas HTTP falsas e cobrem:
+
+- paginação e respostas inválidas;
+- valores monetários e percentuais;
+- classificação de ativos;
+- cálculo de variação de criptomoedas;
+- valores ausentes sem conversão para zero;
+- ticker inexistente;
+- filtros, contagens e paginação da CLI.
+
+O workflow do GitHub Actions executa a suíte em cada `push` e `pull request`.
+
+## Considerações sobre Web Scraping
+
+O projeto usa apenas páginas, endpoints e APIs públicas sem autenticação. Não
+há tentativa de contornar CAPTCHA, Cloudflare, bloqueios ou limites. As chamadas
+são poucas, identificadas por `User-Agent` e realizadas somente durante a
+execução solicitada pelo usuário.
+
+Antes de reutilizar o código em alta frequência ou comercialmente, revise os
+termos de cada fonte e implemente cache e limitação de chamadas.
 
 ## Limitações
 
-- A carteira cobre os ativos do Ibovespa, não todas as ações listadas na B3.
-- A fonte escolhida não fornece preço, abertura, máxima, mínima, variação ou
-  volume. O projeto não inventa nem estima esses campos.
-- O endpoint é usado pela página pública da B3, mas não é apresentado como uma
-  API pública versionada. Uma mudança na página pode exigir atualização do
-  scraper; por isso há validação explícita da estrutura.
+- IBOV e IFIX representam carteiras de índices, não todos os ativos da B3.
+- A fonte B3 escolhida não fornece cotações para ações e FIIs.
+- A lista de criptomoedas é uma seleção configurada de 20 pares BRL.
+- A variação de cripto representa a diferença entre `last` e `open` fornecidos
+  pelo Mercado Bitcoin para o período do ticker.
+- Endpoints usados por páginas web podem mudar sem versionamento público.
 - Os dados são informativos e não constituem recomendação de investimento.
 
 ## Possíveis melhorias
 
+- adicionar uma fonte autorizada de preços para ações e FIIs;
+- permitir configurar a lista de criptomoedas por arquivo;
+- armazenar snapshots históricos para análise temporal;
+- implementar cache local e política de retries com backoff;
 - adicionar comparação entre vários tickers;
-- gerar rankings configuráveis pelo terminal;
-- manter um histórico local das carteiras para analisar mudanças ao longo do
-  tempo;
-- adicionar uma segunda fonte pública e autorizada para preços históricos;
-- criar integração contínua para executar os testes automaticamente.
-
-## Sequência sugerida de commits
-
-```text
-chore: initialize project structure
-feat: implement B3 portfolio scraper
-feat: add data cleaning pipeline
-feat: add stock analysis and terminal interface
-feat: add csv and excel export
-test: add unit tests for scraper and analysis
-docs: add project documentation
-```
-
-Nenhum `git push` é executado pelo projeto.
+- criar gráficos a partir dos arquivos exportados.
 
 ## Licença
 
-Este projeto está disponível sob a licença MIT. Consulte o arquivo `LICENSE`.
+Distribuído sob a licença MIT. Consulte `LICENSE`.
+
